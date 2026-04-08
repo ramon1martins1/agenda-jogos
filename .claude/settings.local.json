@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl -s https://raw.githubusercontent.com/openfootball/south-america/master/brazil/2026_br1.txt)"
+    ]
+  }
+}

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agenda Tricolor - Fluminense</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --flu-green: #007D40;
+      --flu-dark-green: #004d27;
+      --flu-red: #A81B34;
+      --flu-white: #ffffff;
+      --bgg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #09090b 0%, var(--bgg) 100%);
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 0;
+      background: linear-gradient(90deg, var(--flu-green) 0%, var(--flu-white) 50%, var(--flu-red) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      margin-top: 10px;
+    }
+
+    .table-container {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      overflow-x: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 20px 24px;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      color: #cbd5e1;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: middle;
+      font-size: 0.95rem;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .team-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge.home {
+      background: rgba(0, 125, 64, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+
+    .badge.away {
+      background: rgba(168, 27, 52, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.3);
+    }
+
+    .score {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      text-align: center;
+      min-width: 40px;
+    }
+
+    .btn-cal {
+      background: linear-gradient(135deg, var(--flu-dark-green) 0%, var(--flu-green) 100%);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-cal:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 125, 64, 0.4);
+    }
+
+    .btn-cal:active {
+      transform: translateY(0);
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      th, td { padding: 12px 16px; }
+      .header h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Agenda Tricolor</h1>
+      <p>Acompanhe todos os jogos do Fluminense de forma rápida e elegante.</p>
+    </div>
+    
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Data & Hora</th>
+            <th>Adversário</th>
+            <th>Mando</th>
+            <th>Resultado</th>
+            <th>Local</th>
+            <th>Liga</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr><td colspan="7" style="text-align:center; padding:40px;">Carregando jogos...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function abrirCalendario(link) {
+      window.open(link, '_blank');
+    }
+
+    fetch('db.json')
+      .then(res => res.json())
+      .then(jogos => {
+        const tbody = document.getElementById('table-body');
+        tbody.innerHTML = '';
+        
+        if (!Array.isArray(jogos) || jogos.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:40px;">Nenhum jogo cadastrado. Verifique a API.</td></tr>';
+          return;
+        }
+
+        jogos.forEach((jogo, index) => {
+          const row = document.createElement('tr');
+          row.style.animation = `fadeInUp 0.5s ease-out ${index * 0.05}s both`;
+          
+          const badgeClass = jogo.isHome ? 'home' : 'away';
+          const badgeText = jogo.isHome ? 'Casa' : 'Fora';
+
+          row.innerHTML = `
+            <td>
+              <div style="font-weight: 600; color: #fff;">${jogo.date}</div>
+              <div style="font-size: 0.8rem; color: #94a3b8;">${jogo.time}</div>
+            </td>
+            <td>
+              <div class="team-cell">
+                ${jogo.opponent}
+              </div>
+            </td>
+            <td>
+              <span class="badge ${badgeClass}">${badgeText}</span>
+            </td>
+            <td>
+              <span class="score">${jogo.result}</span>
+            </td>
+            <td>${jogo.stadium}</td>
+            <td style="color: #cbd5e1; font-size: 0.85rem;">${jogo.league}</td>
+            <td>
+              <button class="btn-cal" onclick="abrirCalendario('${jogo.calendarLink}')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                Agendar
+              </button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(err => {
+        console.error('Erro ao carregar jogos', err);
+        const tbody = document.getElementById('table-body');
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:40px; color: #f87171;">Erro ao carregar jogos: ${err}</td></tr>`;
+      });
+  </script>
+</body>
+</html>

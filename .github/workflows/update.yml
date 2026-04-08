@@ -1,0 +1,33 @@
+name: Atualizar Agenda Tricolor semanamente
+on:
+  schedule:
+    - cron: '0 8 * * 1' # Executa toda Segunda-feira às 08:00 UTC
+  workflow_dispatch: # Permite rodar manualmente pelo site do GitHub
+
+permissions:
+  contents: write # Dá permissão ao robô para fazer commit do novo db.json
+
+jobs:
+  update-db:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm ci || npm install # Instala o axios definido em package.json
+
+      - name: Buscar jogos e atualizar db.json
+        run: node fetch-jogos.js
+
+      - name: Fazer commit do banco de dados (se houver mudanças)
+        run: |
+          git config --global user.name "Agenda-Bot"
+          git config --global user.email "bot@github.com"
+          git add db.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-atualizando agenda com os últimos jogos do Brasileirão" && git push)
