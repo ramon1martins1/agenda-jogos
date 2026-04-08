@@ -17,7 +17,7 @@ jobs:
       - name: Preparar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Instalar dependências
         run: npm ci || npm install # Instala o axios definido em package.json
@@ -30,4 +30,9 @@ jobs:
           git config --global user.name "Agenda-Bot"
           git config --global user.email "bot@github.com"
           git add db.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-atualizando agenda com os últimos jogos do Brasileirão" && git push)
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto-atualizando agenda com os últimos jogos do Brasileirão"
+            git push
+          else
+            echo "Nenhuma atualização nos jogos por enquanto. Nenhuma mudança para o commit."
+          fi
