@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Agenda Tricolor - Fluminense</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> Tricolor - Fluminense</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -16,7 +17,7 @@
       --card-bg: rgba(30, 41, 59, 0.7);
       --sidebar-bg: rgba(15, 23, 42, 0.85);
     }
-    
+
     body {
       margin: 0;
       padding: 0;
@@ -169,119 +170,237 @@
       font-size: 0.95rem;
     }
 
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background-color: rgba(255, 255, 255, 0.03); }
+    tr:last-child td {
+      border-bottom: none;
+    }
 
-    .team-cell { display: flex; align-items: center; gap: 12px; font-weight: 600; }
+    tr:hover td {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .team-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
 
     .badge {
-      padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; 
-      font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .badge.home {
-      background: rgba(0, 125, 64, 0.2); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3);
+      background: rgba(0, 125, 64, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.3);
     }
 
     .badge.away {
-      background: rgba(168, 27, 52, 0.2); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3);
+      background: rgba(168, 27, 52, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.3);
     }
 
     .score {
-      font-weight: 700; font-size: 1.1rem; color: #fff; background: rgba(0, 0, 0, 0.3);
-      padding: 4px 12px; border-radius: 6px; display: inline-block; text-align: center; min-width: 40px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      text-align: center;
+      min-width: 40px;
     }
 
     .btn-cal {
       background: linear-gradient(135deg, var(--flu-dark-green) 0%, var(--flu-green) 100%);
-      color: white; border: none; padding: 8px 16px; border-radius: 8px;
-      font-family: inherit; font-weight: 600; font-size: 0.85rem; cursor: pointer;
-      transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .btn-cal:hover {
-      transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 125, 64, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 125, 64, 0.4);
     }
 
-    .empty-state { padding: 60px; text-align: center; color: #94a3b8; }
-    .empty-state h3 { color: #cbd5e1; margin-bottom: 8px; }
+    .empty-state {
+      padding: 60px;
+      text-align: center;
+      color: #94a3b8;
+    }
 
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .empty-state h3 {
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
     /* Responsividade Média (Tablets e Menu) */
     @media (max-width: 900px) {
-      .app-layout { flex-direction: column; }
-      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 20px; }
-      .nav-menu { flex-direction: row; flex-wrap: wrap; }
-      .nav-btn { flex: 1; justify-content: center; text-align: center; }
-      .main-content { padding: 20px; }
+      .app-layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 20px;
+      }
+
+      .nav-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .nav-btn {
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .main-content {
+        padding: 20px;
+      }
     }
 
     /* Responsividade Extrema (Celulares - iPhone) */
     @media (max-width: 768px) {
-      .table-container { 
-        background: transparent; 
-        box-shadow: none; 
-        border: none; 
+      .table-container {
+        background: transparent;
+        box-shadow: none;
+        border: none;
         overflow-x: hidden;
       }
-      table, thead, tbody, th, td, tr { display: block; width: 100%; box-sizing: border-box; }
-      thead tr { position: absolute; top: -9999px; left: -9999px; }
-      
-      tr { 
-        background: var(--card-bg); 
-        backdrop-filter: blur(12px); 
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 16px; 
-        margin-bottom: 20px; 
-        border: 1px solid rgba(255, 255, 255, 0.05); 
-        padding: 8px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
-      }
-      
-      tr:hover td { background-color: transparent; }
 
-      td { 
-        border: none; 
-        position: relative; 
-        padding: 14px 16px; 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        text-align: right; 
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      tr {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 16px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 8px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      tr:hover td {
+        background-color: transparent;
+      }
+
+      td {
+        border: none;
+        position: relative;
+        padding: 14px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       }
-      
-      td:last-child { 
-        border-bottom: none; 
-        justify-content: center; 
+
+      td:last-child {
+        border-bottom: none;
+        justify-content: center;
         padding-top: 20px;
       }
-      
-      td::before { 
-        content: attr(data-label); 
-        text-transform: uppercase; 
-        font-weight: 600; 
-        font-size: 0.7rem; 
-        color: #64748b; 
-        letter-spacing: 0.5px; 
-        margin-right: 15px; 
+
+      td::before {
+        content: attr(data-label);
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 0.7rem;
+        color: #64748b;
+        letter-spacing: 0.5px;
+        margin-right: 15px;
         text-align: left;
       }
-      
-      .team-cell { justify-content: flex-end; }
-      .btn-cal { width: 100%; justify-content: center; padding: 12px; }
-      .header h1 { font-size: 2rem; }
-      .header p { font-size: 0.95rem; }
-      .empty-state { padding: 40px 20px; }
+
+      .team-cell {
+        justify-content: flex-end;
+      }
+
+      .btn-cal {
+        width: 100%;
+        justify-content: center;
+        padding: 12px;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .header p {
+        font-size: 0.95rem;
+      }
+
+      .empty-state {
+        padding: 40px 20px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <div class="app-layout">
-    
+
     <!-- Painel Lateral -->
     <aside class="sidebar">
       <div class="brand">
@@ -308,7 +427,7 @@
         <h1 id="titulo-liga">Todos os Jogos</h1>
         <p>Acompanhe todos os jogos do Fluminense de forma rápida e elegante.</p>
       </div>
-      
+
       <div class="table-container">
         <table>
           <thead>
@@ -323,7 +442,9 @@
             </tr>
           </thead>
           <tbody id="table-body">
-            <tr><td colspan="7" style="text-align:center; padding:40px;">Carregando jogos...</td></tr>
+            <tr>
+              <td colspan="7" style="text-align:center; padding:40px;">Carregando jogos...</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -340,7 +461,7 @@
     function renderizarTabela(jogosFiltro) {
       const tbody = document.getElementById('table-body');
       tbody.innerHTML = '';
-      
+
       if (!Array.isArray(jogosFiltro) || jogosFiltro.length === 0) {
         tbody.innerHTML = `
           <tr>
@@ -357,7 +478,7 @@
       jogosFiltro.forEach((jogo, index) => {
         const row = document.createElement('tr');
         row.style.animation = `fadeInUp 0.5s ease-out ${index * 0.05}s both`;
-        
+
         const badgeClass = jogo.isHome ? 'home' : 'away';
         const badgeText = jogo.isHome ? 'Casa' : 'Fora';
 
@@ -394,7 +515,7 @@
       // Atualizar botões
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
       element.classList.add('active');
-      
+
       // Atualizar Título
       document.getElementById('titulo-liga').innerText = liga === 'Todos' ? 'Todos os Jogos' : liga;
 
@@ -421,4 +542,5 @@
       });
   </script>
 </body>
+
 </html>
