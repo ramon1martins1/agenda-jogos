@@ -1,5 +1,3 @@
-import fs from 'fs';
-
 const fs = require('fs');
 const axios = require('axios');
 
@@ -70,8 +68,8 @@ async function fetchJogos() {
       dataFormatadaCale = dateObj.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
     }
 
-        // Título do evento respeitando o mando de campo e sempre usando "vs"
-        const textCal = encodeURIComponent(isHome ? `Fluminense vs ${opponent}` : `${opponent} vs Fluminense`);
+     // Título do evento respeitando o mando de campo e sempre usando "vs"
+     const textCal = encodeURIComponent(isHome ? `Fluminense vs ${opponent}` : `${opponent} vs Fluminense`);
     const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${textCal}&dates=${dataFormatadaCale}/${dataFormatadaCale}`;
 
     let resultStr = '-';
