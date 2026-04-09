@@ -1,5 +1,5 @@
-const fs = require('fs');
-const axios = require('axios');
+import fs from 'fs';
+import axios from 'axios';
 
 const OPENFOOTBALL_URLS = [
   { url: 'https://raw.githubusercontent.com/openfootball/south-america/master/brazil/2026_br1.txt', leagueName: 'Brasileirão Série A' },
