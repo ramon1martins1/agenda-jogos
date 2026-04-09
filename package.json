@@ -1,8 +1,9 @@
-{ "name": "agenda-jogos",
-      "version": "1.0.0",
-      "type": "module",
-      "dependencies": {
-            "node-cron": "^3.0.0",
-                "uuid": "^9.0.0"
-                  }
+{
+  "name": "agenda-jogos",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "node-cron": "^3.0.0",
+    "uuid": "^9.0.0"
+  }
 }
