@@ -1,1 +1,8 @@
-{\n  "name": "agenda-jogos",\n  "version": "1.0.0",\n  "type": "module",\n  "dependencies": {\n    "node-cron": "^3.0.0",\n    "uuid": "^9.0.0"\n  }\n}
+{ "name": "agenda-jogos",
+      "version": "1.0.0",
+      "type": "module",
+      "dependencies": {
+            "node-cron": "^3.0.0",
+                "uuid": "^9.0.0"
+                  }
+}
