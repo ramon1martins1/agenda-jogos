@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agenda Tricolor - Fluminense</title>
+  <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Fluminense_FC_logo.svg/200px-Fluminense_FC_logo.svg.png">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -50,6 +51,17 @@
 
     .brand {
       margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+      flex-shrink: 0;
     }
 
     .brand h2 {
@@ -404,6 +416,7 @@
     <!-- Painel Lateral -->
     <aside class="sidebar">
       <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Fluminense_FC_logo.svg/200px-Fluminense_FC_logo.svg.png" alt="Escudo do Fluminense">
         <h2>Agenda Flu</h2>
       </div>
 
