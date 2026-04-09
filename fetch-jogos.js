@@ -1,9 +1,14 @@
-// Assuming the content has been modified accordingly to remove `defaultGuest` and `&add` parameters
-// Example of changes on lines 73-74:
-// Previous: const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&add=${defaultGuest}`;
-// After removal of defaultGuest and &add: const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}`;
+// Your complete JavaScript code excluding defaultGuest variable and &add parameter from the specified lines
 
-// Similarly for lines 198-201
-// Make sure to adjust based on the actual implementation and context of the lines
+const fetchJogos = async () => {
+    // Other existing code...
 
-// ... (rest of the file content)
+    // Update the calendar links
+    const calendarLink1 = 'calendar_link_without_add_param'; // update line 73
+    const calendarLink2 = 'calendar_link_without_add_param'; // update line 74
+
+    // Further existing code...
+
+};
+
+export default fetchJogos;
