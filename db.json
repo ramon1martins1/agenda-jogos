@@ -200,7 +200,7 @@
     "time": "18:30",
     "stadium": "A definir",
     "league": "Brasileirão Série A - Rodada 14",
-    "result": "-",
+    "result": "2-0",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=SC%20Internacional%20vs%20Fluminense&dates=20260503T213000Z/20260503T213000Z"
   },
   {
@@ -280,12 +280,12 @@
     "Fluminense": "Fluminense FC",
     "opponent": "Cruzeiro EC",
     "isHome": false,
-    "date": "30/05/2026",
-    "time": "A definir",
+    "date": "31/05/2026",
+    "time": "20:30",
     "stadium": "A definir",
     "league": "Brasileirão Série A - Rodada 18",
     "result": "-",
-    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Cruzeiro%20EC%20vs%20Fluminense&dates=20260530/20260530"
+    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Cruzeiro%20EC%20vs%20Fluminense&dates=20260531T233000Z/20260531T233000Z"
   },
   {
     "id": 25,
