@@ -596,15 +596,13 @@
 
     <!-- Painel Lateral -->
     <aside class="sidebar">
-      <div class="brand">
-        <img src="https://cdn.brandfetch.io/idbsNMf7V4/theme/dark/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1775450541140"
-          alt="Escudo do Fluminense">
-        <h2>Agenda Flu</h2>
+      <div class="brand">        
+        <h2>Agenda</h2>
       </div>
 
       <div class="nav-menu">
         <div class="nav-title">Campeonatos</div>
-        <button class="nav-btn active" onclick="filtrarLiga('Todos', this)">
+        <button class="nav-btn" onclick="filtrarLiga('Todos', this)">
           Todos os Jogos
         </button>
         <button class="nav-btn" onclick="filtrarLiga('Brasileirão Série A', this)">
@@ -615,7 +613,7 @@
         </button>
 
         <div class="nav-title" style="margin-top: 20px;">Mundial</div>
-        <button class="nav-btn copa-nav-btn" onclick="mostrarCopa(this)">
+        <button class="nav-btn copa-nav-btn active" onclick="mostrarCopa(this)">
           🏆 Copa do Mundo 2026
         </button>
       </div>
@@ -625,7 +623,7 @@
     <main class="main-content">
 
       <!-- ── View Fluminense ── -->
-      <div id="view-flu">
+      <div id="view-flu" style="display:none;">
         <div class="header">
           <h1 id="titulo-liga">Todos os Jogos</h1>
           <p>Acompanhe todos os jogos do Fluminense de forma rápida e elegante.</p>
@@ -654,7 +652,7 @@
       </div>
 
       <!-- ── View Copa do Mundo 2026 ── -->
-      <div id="view-copa" style="display:none;">
+      <div id="view-copa">
         <div class="header">
           <h1>Copa do Mundo 2026</h1>
           <p>Fase de Grupos &bull; Estados Unidos, México &amp; Canadá</p>
@@ -914,6 +912,12 @@
       if (dia    !== 'todos') filtrados = filtrados.filter(j => j.data === dia);
       if (time   !== 'todos') filtrados = filtrados.filter(j => j.time1 === time || j.time2 === time);
 
+      // Ordenar por grupo (A→L) depois por data
+      const toDate = s => { const [d, m] = s.split('/'); return new Date(2026, m - 1, d); };
+      filtrados = [...filtrados].sort((a, b) =>
+        a.grupo.localeCompare(b.grupo) || toDate(a.data) - toDate(b.data)
+      );
+
       renderizarCopa(filtrados);
     }
 
@@ -956,7 +960,10 @@
       }).join('') + '</div>';
     }
 
-    // Carregar os dados
+    // Inicializar Copa 2026 como view padrão
+    mostrarCopa(document.querySelector('.copa-nav-btn'));
+
+    // Carregar os dados do Fluminense em background
     fetch('db.json')
       .then(res => res.json())
       .then(jogos => {
