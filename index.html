@@ -317,6 +317,186 @@
     }
 
     /* Responsividade Extrema (Celulares - iPhone) */
+    /* ── Copa do Mundo 2026 ────────────────────────────── */
+    .nav-btn.copa-nav-btn.active {
+      background: rgba(234, 179, 8, 0.15);
+      border: 1px solid rgba(234, 179, 8, 0.4);
+      color: #fbbf24;
+    }
+
+    .copa-filters {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      animation: fadeInDown 0.5s ease-out both;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .filter-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .filter-select {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      outline: none;
+      min-width: 200px;
+      transition: border-color 0.2s ease;
+    }
+
+    .filter-select:hover,
+    .filter-select:focus {
+      border-color: rgba(234, 179, 8, 0.4);
+    }
+
+    .copa-matches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+    }
+
+    .match-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .match-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .match-card.brasil {
+      border-color: rgba(234, 179, 8, 0.25);
+      box-shadow: 0 0 18px rgba(234, 179, 8, 0.07);
+    }
+
+    .match-card.brasil:hover {
+      box-shadow: 0 12px 28px rgba(234, 179, 8, 0.15);
+    }
+
+    .card-header {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .group-badge {
+      background: rgba(100, 116, 139, 0.25);
+      color: #94a3b8;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .match-card.brasil .group-badge {
+      background: rgba(234, 179, 8, 0.15);
+      color: #fbbf24;
+    }
+
+    .match-datetime {
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+
+    .card-body {
+      padding: 20px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .match-team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .team-flag {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .team-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      color: #e2e8f0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .match-vs {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #64748b;
+      min-width: 48px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .match-vs.played {
+      color: #fff;
+      font-size: 1.1rem;
+    }
+
+    .card-footer {
+      padding: 10px 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 0.78rem;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .copa-empty {
+      grid-column: 1 / -1;
+      padding: 60px;
+      text-align: center;
+      color: #94a3b8;
+    }
+
+    .copa-empty h3 { color: #cbd5e1; margin-bottom: 8px; }
+
+    @media (max-width: 768px) {
+      .copa-matches { grid-template-columns: 1fr; }
+      .copa-filters { flex-direction: column; }
+      .filter-select { min-width: unset; width: 100%; }
+    }
+    /* ────────────────────────────────────────────────── */
+
     @media (max-width: 768px) {
       .table-container {
         background: transparent;
@@ -433,36 +613,80 @@
         <button class="nav-btn" onclick="filtrarLiga('Copa Libertadores', this)">
           Copa Libertadores
         </button>
+
+        <div class="nav-title" style="margin-top: 20px;">Mundial</div>
+        <button class="nav-btn copa-nav-btn" onclick="mostrarCopa(this)">
+          🏆 Copa do Mundo 2026
+        </button>
       </div>
     </aside>
 
     <!-- Conteúdo Principal -->
     <main class="main-content">
-      <div class="header">
-        <h1 id="titulo-liga">Todos os Jogos</h1>
-        <p>Acompanhe todos os jogos do Fluminense de forma rápida e elegante.</p>
+
+      <!-- ── View Fluminense ── -->
+      <div id="view-flu">
+        <div class="header">
+          <h1 id="titulo-liga">Todos os Jogos</h1>
+          <p>Acompanhe todos os jogos do Fluminense de forma rápida e elegante.</p>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Data & Hora</th>
+                <th>Adversário</th>
+                <th>Mando</th>
+                <th>Resultado</th>
+                <th>Local</th>
+                <th>Liga</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr>
+                <td colspan="7" style="text-align:center; padding:40px;">Carregando jogos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Data & Hora</th>
-              <th>Adversário</th>
-              <th>Mando</th>
-              <th>Resultado</th>
-              <th>Local</th>
-              <th>Liga</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody id="table-body">
-            <tr>
-              <td colspan="7" style="text-align:center; padding:40px;">Carregando jogos...</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- ── View Copa do Mundo 2026 ── -->
+      <div id="view-copa" style="display:none;">
+        <div class="header">
+          <h1>Copa do Mundo 2026</h1>
+          <p>Fase de Grupos &bull; Estados Unidos, México &amp; Canadá</p>
+        </div>
+
+        <div class="copa-filters">
+          <div class="filter-group">
+            <label class="filter-label">Semana</label>
+            <select id="filtro-semana" class="filter-select" onchange="filtrarCopa()">
+              <option value="todos">Todas as semanas</option>
+              <option value="1">Semana 1 (11–17/jun)</option>
+              <option value="2">Semana 2 (18–24/jun)</option>
+              <option value="3">Semana 3 (25–27/jun)</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Dia</label>
+            <select id="filtro-dia" class="filter-select" onchange="filtrarCopa()">
+              <option value="todos">Todos os dias</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">Seleção</label>
+            <select id="filtro-time" class="filter-select" onchange="filtrarCopa()">
+              <option value="Brasil" selected>🇧🇷 Brasil</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="copa-matches-container"></div>
       </div>
+
     </main>
   </div>
 
@@ -527,6 +751,10 @@
     }
 
     function filtrarLiga(liga, element) {
+      // Garantir que a view do Flu está visível
+      document.getElementById('view-flu').style.display = 'block';
+      document.getElementById('view-copa').style.display = 'none';
+
       // Atualizar botões
       document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
       element.classList.add('active');
@@ -541,6 +769,191 @@
       }
 
       renderizarTabela(filtrados);
+    }
+
+    // ================================================================
+    // Copa do Mundo 2026 — dados e funções
+    // ================================================================
+    const flags = {
+      'México': '🇲🇽', 'África do Sul': '🇿🇦', 'Coreia do Sul': '🇰🇷', 'Tchéquia': '🇨🇿',
+      'Canadá': '🇨🇦', 'Bósnia e Herzegovina': '🇧🇦', 'Catar': '🇶🇦', 'Suíça': '🇨🇭',
+      'Brasil': '🇧🇷', 'Marrocos': '🇲🇦', 'Haiti': '🇭🇹', 'Escócia': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+      'EUA': '🇺🇸', 'Paraguai': '🇵🇾', 'Austrália': '🇦🇺', 'Turquia': '🇹🇷',
+      'Alemanha': '🇩🇪', 'Curaçao': '🇨🇼', 'Costa do Marfim': '🇨🇮', 'Equador': '🇪🇨',
+      'Holanda': '🇳🇱', 'Japão': '🇯🇵', 'Suécia': '🇸🇪', 'Tunísia': '🇹🇳',
+      'Bélgica': '🇧🇪', 'Egito': '🇪🇬', 'Irã': '🇮🇷', 'Nova Zelândia': '🇳🇿',
+      'Espanha': '🇪🇸', 'Cabo Verde': '🇨🇻', 'Arábia Saudita': '🇸🇦', 'Uruguai': '🇺🇾',
+      'França': '🇫🇷', 'Senegal': '🇸🇳', 'Iraque': '🇮🇶', 'Noruega': '🇳🇴',
+      'Argentina': '🇦🇷', 'Argélia': '🇩🇿', 'Áustria': '🇦🇹', 'Jordânia': '🇯🇴',
+      'Portugal': '🇵🇹', 'RD Congo': '🇨🇩', 'Uzbequistão': '🇺🇿', 'Colômbia': '🇨🇴',
+      'Inglaterra': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'Croácia': '🇭🇷', 'Gana': '🇬🇭', 'Panamá': '🇵🇦',
+    };
+
+    const jogosCopa2026 = [
+      // GRUPO A
+      { id:  1, grupo:'A', time1:'México',               time2:'África do Sul',        data:'11/06/2026', hora:'16:00', estadio:'Estádio Azteca',              cidade:'Cidade do México', resultado:'-', semana:1 },
+      { id:  2, grupo:'A', time1:'Coreia do Sul',         time2:'Tchéquia',             data:'12/06/2026', hora:'14:00', estadio:'Estadio Akron',               cidade:'Guadalajara',      resultado:'-', semana:1 },
+      { id:  3, grupo:'A', time1:'Tchéquia',              time2:'África do Sul',        data:'18/06/2026', hora:'14:00', estadio:'Estadio Akron',               cidade:'Guadalajara',      resultado:'-', semana:2 },
+      { id:  4, grupo:'A', time1:'México',               time2:'Coreia do Sul',         data:'18/06/2026', hora:'16:00', estadio:'Estádio Azteca',              cidade:'Cidade do México', resultado:'-', semana:2 },
+      { id:  5, grupo:'A', time1:'Tchéquia',              time2:'México',               data:'24/06/2026', hora:'17:00', estadio:'Estadio BBVA',                cidade:'Monterrey',        resultado:'-', semana:2 },
+      { id:  6, grupo:'A', time1:'África do Sul',        time2:'Coreia do Sul',         data:'24/06/2026', hora:'17:00', estadio:'Estadio Akron',               cidade:'Guadalajara',      resultado:'-', semana:2 },
+      // GRUPO B
+      { id:  7, grupo:'B', time1:'Canadá',               time2:'Bósnia e Herzegovina', data:'12/06/2026', hora:'17:00', estadio:'BMO Field',                   cidade:'Toronto',          resultado:'-', semana:1 },
+      { id:  8, grupo:'B', time1:'Catar',                time2:'Suíça',                data:'13/06/2026', hora:'13:00', estadio:'BC Place',                    cidade:'Vancouver',        resultado:'-', semana:1 },
+      { id:  9, grupo:'B', time1:'Suíça',                time2:'Bósnia e Herzegovina', data:'18/06/2026', hora:'19:00', estadio:'Estadio BBVA',                cidade:'Monterrey',        resultado:'-', semana:2 },
+      { id: 10, grupo:'B', time1:'Canadá',               time2:'Catar',                data:'18/06/2026', hora:'17:00', estadio:'BMO Field',                   cidade:'Toronto',          resultado:'-', semana:2 },
+      { id: 11, grupo:'B', time1:'Suíça',                time2:'Canadá',               data:'24/06/2026', hora:'20:00', estadio:'BMO Field',                   cidade:'Toronto',          resultado:'-', semana:2 },
+      { id: 12, grupo:'B', time1:'Bósnia e Herzegovina', time2:'Catar',                data:'24/06/2026', hora:'20:00', estadio:'BC Place',                    cidade:'Vancouver',        resultado:'-', semana:2 },
+      // GRUPO C — BRASIL
+      { id: 13, grupo:'C', time1:'Brasil',               time2:'Marrocos',             data:'13/06/2026', hora:'16:00', estadio:'MetLife Stadium',             cidade:'Nova Jersey',      resultado:'-', semana:1 },
+      { id: 14, grupo:'C', time1:'Haiti',                time2:'Escócia',              data:'13/06/2026', hora:'19:00', estadio:'NRG Stadium',                 cidade:'Houston',          resultado:'-', semana:1 },
+      { id: 15, grupo:'C', time1:'Escócia',              time2:'Marrocos',             data:'19/06/2026', hora:'13:00', estadio:'Lincoln Financial Field',     cidade:'Filadélfia',       resultado:'-', semana:2 },
+      { id: 16, grupo:'C', time1:'Brasil',               time2:'Haiti',               data:'19/06/2026', hora:'16:00', estadio:'MetLife Stadium',             cidade:'Nova Jersey',      resultado:'-', semana:2 },
+      { id: 17, grupo:'C', time1:'Marrocos',             time2:'Haiti',               data:'25/06/2026', hora:'17:00', estadio:'NRG Stadium',                 cidade:'Houston',          resultado:'-', semana:3 },
+      { id: 18, grupo:'C', time1:'Escócia',              time2:'Brasil',              data:'25/06/2026', hora:'17:00', estadio:'MetLife Stadium',             cidade:'Nova Jersey',      resultado:'-', semana:3 },
+      // GRUPO D
+      { id: 19, grupo:'D', time1:'EUA',                  time2:'Paraguai',             data:'12/06/2026', hora:'20:00', estadio:'SoFi Stadium',                cidade:'Los Angeles',      resultado:'-', semana:1 },
+      { id: 20, grupo:'D', time1:'Austrália',            time2:'Turquia',              data:'13/06/2026', hora:'20:00', estadio:"Levi's Stadium",              cidade:'São Francisco',    resultado:'-', semana:1 },
+      { id: 21, grupo:'D', time1:'Turquia',              time2:'Paraguai',             data:'19/06/2026', hora:'19:00', estadio:'SoFi Stadium',                cidade:'Los Angeles',      resultado:'-', semana:2 },
+      { id: 22, grupo:'D', time1:'EUA',                  time2:'Austrália',            data:'19/06/2026', hora:'20:00', estadio:"Levi's Stadium",              cidade:'São Francisco',    resultado:'-', semana:2 },
+      { id: 23, grupo:'D', time1:'Turquia',              time2:'EUA',                  data:'25/06/2026', hora:'20:00', estadio:'SoFi Stadium',                cidade:'Los Angeles',      resultado:'-', semana:3 },
+      { id: 24, grupo:'D', time1:'Paraguai',             time2:'Austrália',            data:'25/06/2026', hora:'20:00', estadio:"Levi's Stadium",              cidade:'São Francisco',    resultado:'-', semana:3 },
+      // GRUPO E
+      { id: 25, grupo:'E', time1:'Alemanha',             time2:'Curaçao',              data:'14/06/2026', hora:'13:00', estadio:'Gillette Stadium',            cidade:'Boston',           resultado:'-', semana:1 },
+      { id: 26, grupo:'E', time1:'Costa do Marfim',      time2:'Equador',              data:'14/06/2026', hora:'16:00', estadio:'Lincoln Financial Field',     cidade:'Filadélfia',       resultado:'-', semana:1 },
+      { id: 27, grupo:'E', time1:'Alemanha',             time2:'Costa do Marfim',      data:'20/06/2026', hora:'13:00', estadio:'Gillette Stadium',            cidade:'Boston',           resultado:'-', semana:2 },
+      { id: 28, grupo:'E', time1:'Equador',              time2:'Curaçao',              data:'20/06/2026', hora:'16:00', estadio:'Lincoln Financial Field',     cidade:'Filadélfia',       resultado:'-', semana:2 },
+      { id: 29, grupo:'E', time1:'Equador',              time2:'Alemanha',             data:'26/06/2026', hora:'15:00', estadio:'Gillette Stadium',            cidade:'Boston',           resultado:'-', semana:3 },
+      { id: 30, grupo:'E', time1:'Curaçao',              time2:'Costa do Marfim',      data:'26/06/2026', hora:'15:00', estadio:'Lincoln Financial Field',     cidade:'Filadélfia',       resultado:'-', semana:3 },
+      // GRUPO F
+      { id: 31, grupo:'F', time1:'Holanda',              time2:'Japão',                data:'14/06/2026', hora:'19:00', estadio:'Lumen Field',                 cidade:'Seattle',          resultado:'-', semana:1 },
+      { id: 32, grupo:'F', time1:'Suécia',               time2:'Tunísia',              data:'14/06/2026', hora:'20:00', estadio:'Hard Rock Stadium',           cidade:'Miami',            resultado:'-', semana:1 },
+      { id: 33, grupo:'F', time1:'Tunísia',              time2:'Japão',                data:'20/06/2026', hora:'19:00', estadio:'Hard Rock Stadium',           cidade:'Miami',            resultado:'-', semana:2 },
+      { id: 34, grupo:'F', time1:'Holanda',              time2:'Suécia',               data:'20/06/2026', hora:'20:00', estadio:'Lumen Field',                 cidade:'Seattle',          resultado:'-', semana:2 },
+      { id: 35, grupo:'F', time1:'Tunísia',              time2:'Holanda',              data:'26/06/2026', hora:'17:00', estadio:'Hard Rock Stadium',           cidade:'Miami',            resultado:'-', semana:3 },
+      { id: 36, grupo:'F', time1:'Japão',                time2:'Suécia',               data:'26/06/2026', hora:'17:00', estadio:'Lumen Field',                 cidade:'Seattle',          resultado:'-', semana:3 },
+      // GRUPO G
+      { id: 37, grupo:'G', time1:'Bélgica',              time2:'Egito',                data:'15/06/2026', hora:'13:00', estadio:'Mercedes-Benz Stadium',       cidade:'Atlanta',          resultado:'-', semana:1 },
+      { id: 38, grupo:'G', time1:'Irã',                  time2:'Nova Zelândia',        data:'15/06/2026', hora:'16:00', estadio:'GEHA Field at Arrowhead',     cidade:'Kansas City',      resultado:'-', semana:1 },
+      { id: 39, grupo:'G', time1:'Bélgica',              time2:'Irã',                  data:'21/06/2026', hora:'13:00', estadio:'Mercedes-Benz Stadium',       cidade:'Atlanta',          resultado:'-', semana:2 },
+      { id: 40, grupo:'G', time1:'Nova Zelândia',        time2:'Egito',                data:'21/06/2026', hora:'16:00', estadio:'GEHA Field at Arrowhead',     cidade:'Kansas City',      resultado:'-', semana:2 },
+      { id: 41, grupo:'G', time1:'Nova Zelândia',        time2:'Bélgica',              data:'26/06/2026', hora:'19:00', estadio:'Mercedes-Benz Stadium',       cidade:'Atlanta',          resultado:'-', semana:3 },
+      { id: 42, grupo:'G', time1:'Egito',                time2:'Irã',                  data:'26/06/2026', hora:'19:00', estadio:'GEHA Field at Arrowhead',     cidade:'Kansas City',      resultado:'-', semana:3 },
+      // GRUPO H
+      { id: 43, grupo:'H', time1:'Espanha',              time2:'Cabo Verde',           data:'15/06/2026', hora:'19:00', estadio:'AT&T Stadium',                cidade:'Dallas',           resultado:'-', semana:1 },
+      { id: 44, grupo:'H', time1:'Arábia Saudita',       time2:'Uruguai',              data:'15/06/2026', hora:'20:00', estadio:'SoFi Stadium',                cidade:'Los Angeles',      resultado:'-', semana:1 },
+      { id: 45, grupo:'H', time1:'Espanha',              time2:'Arábia Saudita',       data:'21/06/2026', hora:'19:00', estadio:'AT&T Stadium',                cidade:'Dallas',           resultado:'-', semana:2 },
+      { id: 46, grupo:'H', time1:'Uruguai',              time2:'Cabo Verde',           data:'21/06/2026', hora:'20:00', estadio:'SoFi Stadium',                cidade:'Los Angeles',      resultado:'-', semana:2 },
+      { id: 47, grupo:'H', time1:'Uruguai',              time2:'Espanha',              data:'26/06/2026', hora:'20:30', estadio:'AT&T Stadium',                cidade:'Dallas',           resultado:'-', semana:3 },
+      { id: 48, grupo:'H', time1:'Cabo Verde',           time2:'Arábia Saudita',       data:'26/06/2026', hora:'20:30', estadio:'SoFi Stadium',                cidade:'Los Angeles',      resultado:'-', semana:3 },
+      // GRUPO I
+      { id: 49, grupo:'I', time1:'França',               time2:'Senegal',              data:'16/06/2026', hora:'13:00', estadio:'MetLife Stadium',             cidade:'Nova Jersey',      resultado:'-', semana:1 },
+      { id: 50, grupo:'I', time1:'Iraque',               time2:'Noruega',              data:'16/06/2026', hora:'16:00', estadio:'NRG Stadium',                 cidade:'Houston',          resultado:'-', semana:1 },
+      { id: 51, grupo:'I', time1:'França',               time2:'Iraque',               data:'22/06/2026', hora:'13:00', estadio:'MetLife Stadium',             cidade:'Nova Jersey',      resultado:'-', semana:2 },
+      { id: 52, grupo:'I', time1:'Noruega',              time2:'Senegal',              data:'22/06/2026', hora:'16:00', estadio:'NRG Stadium',                 cidade:'Houston',          resultado:'-', semana:2 },
+      { id: 53, grupo:'I', time1:'Noruega',              time2:'França',               data:'27/06/2026', hora:'15:00', estadio:'MetLife Stadium',             cidade:'Nova Jersey',      resultado:'-', semana:3 },
+      { id: 54, grupo:'I', time1:'Senegal',              time2:'Iraque',               data:'27/06/2026', hora:'15:00', estadio:'NRG Stadium',                 cidade:'Houston',          resultado:'-', semana:3 },
+      // GRUPO J
+      { id: 55, grupo:'J', time1:'Argentina',            time2:'Argélia',              data:'16/06/2026', hora:'19:00', estadio:'Hard Rock Stadium',           cidade:'Miami',            resultado:'-', semana:1 },
+      { id: 56, grupo:'J', time1:'Áustria',              time2:'Jordânia',             data:'16/06/2026', hora:'20:00', estadio:"Levi's Stadium",              cidade:'São Francisco',    resultado:'-', semana:1 },
+      { id: 57, grupo:'J', time1:'Argentina',            time2:'Áustria',              data:'22/06/2026', hora:'19:00', estadio:'Hard Rock Stadium',           cidade:'Miami',            resultado:'-', semana:2 },
+      { id: 58, grupo:'J', time1:'Jordânia',             time2:'Argélia',              data:'22/06/2026', hora:'20:00', estadio:"Levi's Stadium",              cidade:'São Francisco',    resultado:'-', semana:2 },
+      { id: 59, grupo:'J', time1:'Jordânia',             time2:'Argentina',            data:'27/06/2026', hora:'17:00', estadio:'Hard Rock Stadium',           cidade:'Miami',            resultado:'-', semana:3 },
+      { id: 60, grupo:'J', time1:'Argélia',              time2:'Áustria',              data:'27/06/2026', hora:'17:00', estadio:"Levi's Stadium",              cidade:'São Francisco',    resultado:'-', semana:3 },
+      // GRUPO K
+      { id: 61, grupo:'K', time1:'Portugal',             time2:'RD Congo',             data:'17/06/2026', hora:'13:00', estadio:'Mercedes-Benz Stadium',       cidade:'Atlanta',          resultado:'-', semana:1 },
+      { id: 62, grupo:'K', time1:'Uzbequistão',          time2:'Colômbia',             data:'17/06/2026', hora:'16:00', estadio:'GEHA Field at Arrowhead',     cidade:'Kansas City',      resultado:'-', semana:1 },
+      { id: 63, grupo:'K', time1:'Portugal',             time2:'Uzbequistão',          data:'23/06/2026', hora:'13:00', estadio:'Mercedes-Benz Stadium',       cidade:'Atlanta',          resultado:'-', semana:2 },
+      { id: 64, grupo:'K', time1:'Colômbia',             time2:'RD Congo',             data:'23/06/2026', hora:'16:00', estadio:'GEHA Field at Arrowhead',     cidade:'Kansas City',      resultado:'-', semana:2 },
+      { id: 65, grupo:'K', time1:'Colômbia',             time2:'Portugal',             data:'27/06/2026', hora:'19:00', estadio:'Mercedes-Benz Stadium',       cidade:'Atlanta',          resultado:'-', semana:3 },
+      { id: 66, grupo:'K', time1:'RD Congo',             time2:'Uzbequistão',          data:'27/06/2026', hora:'19:00', estadio:'GEHA Field at Arrowhead',     cidade:'Kansas City',      resultado:'-', semana:3 },
+      // GRUPO L
+      { id: 67, grupo:'L', time1:'Inglaterra',           time2:'Croácia',              data:'17/06/2026', hora:'19:00', estadio:'Gillette Stadium',            cidade:'Boston',           resultado:'-', semana:1 },
+      { id: 68, grupo:'L', time1:'Gana',                 time2:'Panamá',               data:'17/06/2026', hora:'20:00', estadio:'Lumen Field',                 cidade:'Seattle',          resultado:'-', semana:1 },
+      { id: 69, grupo:'L', time1:'Inglaterra',           time2:'Gana',                 data:'23/06/2026', hora:'19:00', estadio:'Gillette Stadium',            cidade:'Boston',           resultado:'-', semana:2 },
+      { id: 70, grupo:'L', time1:'Panamá',               time2:'Croácia',              data:'23/06/2026', hora:'20:00', estadio:'Lumen Field',                 cidade:'Seattle',          resultado:'-', semana:2 },
+      { id: 71, grupo:'L', time1:'Panamá',               time2:'Inglaterra',           data:'27/06/2026', hora:'20:30', estadio:'Gillette Stadium',            cidade:'Boston',           resultado:'-', semana:3 },
+      { id: 72, grupo:'L', time1:'Croácia',              time2:'Gana',                 data:'27/06/2026', hora:'20:30', estadio:'Lumen Field',                 cidade:'Seattle',          resultado:'-', semana:3 },
+    ];
+
+    function mostrarCopa(element) {
+      document.getElementById('view-flu').style.display = 'none';
+      document.getElementById('view-copa').style.display = 'block';
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+
+      // Preencher filtro de seleções (alfabético, Brasil como padrão)
+      const allTeams = [...new Set(jogosCopa2026.flatMap(j => [j.time1, j.time2]))].sort((a, b) => a.localeCompare(b, 'pt'));
+      const selTime = document.getElementById('filtro-time');
+      selTime.innerHTML = '<option value="todos">Todas as seleções</option>' +
+        allTeams.map(t => `<option value="${t}"${t === 'Brasil' ? ' selected' : ''}>${flags[t] || ''} ${t}</option>`).join('');
+
+      // Preencher filtro de dias
+      const toDate = s => { const [d, m] = s.split('/'); return new Date(2026, m - 1, d); };
+      const allDates = [...new Set(jogosCopa2026.map(j => j.data))].sort((a, b) => toDate(a) - toDate(b));
+      const diasPT = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+      const selDia = document.getElementById('filtro-dia');
+      selDia.innerHTML = '<option value="todos">Todos os dias</option>' +
+        allDates.map(d => {
+          const [dia, mes] = d.split('/');
+          const nome = diasPT[new Date(2026, mes - 1, dia).getDay()];
+          return `<option value="${d}">${nome}, ${dia}/${mes}</option>`;
+        }).join('');
+
+      document.getElementById('filtro-semana').value = 'todos';
+      filtrarCopa();
+    }
+
+    function filtrarCopa() {
+      const semana = document.getElementById('filtro-semana').value;
+      const dia    = document.getElementById('filtro-dia').value;
+      const time   = document.getElementById('filtro-time').value;
+
+      let filtrados = jogosCopa2026;
+      if (semana !== 'todos') filtrados = filtrados.filter(j => j.semana == semana);
+      if (dia    !== 'todos') filtrados = filtrados.filter(j => j.data === dia);
+      if (time   !== 'todos') filtrados = filtrados.filter(j => j.time1 === time || j.time2 === time);
+
+      renderizarCopa(filtrados);
+    }
+
+    function renderizarCopa(jogos) {
+      const container = document.getElementById('copa-matches-container');
+      if (!jogos || jogos.length === 0) {
+        container.innerHTML = '<div class="copa-matches"><div class="copa-empty"><h3>Nenhum jogo encontrado</h3><p>Tente ajustar os filtros.</p></div></div>';
+        return;
+      }
+      const diasPT = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+      container.innerHTML = '<div class="copa-matches">' + jogos.map((jogo, i) => {
+        const isBrasil = jogo.time1 === 'Brasil' || jogo.time2 === 'Brasil';
+        const [dia, mes] = jogo.data.split('/');
+        const nomeDia = diasPT[new Date(2026, mes - 1, dia).getDay()];
+        const f1 = flags[jogo.time1] || '🏳️';
+        const f2 = flags[jogo.time2] || '🏳️';
+        const played = jogo.resultado !== '-';
+        return `
+          <div class="match-card${isBrasil ? ' brasil' : ''}" style="animation:fadeInUp 0.4s ease-out ${i * 0.04}s both;">
+            <div class="card-header">
+              <span class="group-badge">Grupo ${jogo.grupo}</span>
+              <span class="match-datetime">${nomeDia} &bull; ${dia}/${mes} &bull; ${jogo.hora}</span>
+            </div>
+            <div class="card-body">
+              <div class="match-team">
+                <span class="team-flag">${f1}</span>
+                <span class="team-name">${jogo.time1}</span>
+              </div>
+              <div class="match-vs${played ? ' played' : ''}">${jogo.resultado}</div>
+              <div class="match-team">
+                <span class="team-flag">${f2}</span>
+                <span class="team-name">${jogo.time2}</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              ${jogo.estadio} &bull; ${jogo.cidade}
+            </div>
+          </div>`;
+      }).join('') + '</div>';
     }
 
     // Carregar os dados

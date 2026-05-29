@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(curl -s https://raw.githubusercontent.com/openfootball/south-america/master/brazil/2026_br1.txt)"
+      "Bash(curl -s https://raw.githubusercontent.com/openfootball/south-america/master/brazil/2026_br1.txt)",
+      "Bash(dir /s /b)",
+      "mcp__plugin_desktop-commander_desktop-commander__list_directory",
+      "WebSearch",
+      "WebFetch(domain:esbrasil.com.br)",
+      "WebFetch(domain:trivela.com.br)",
+      "WebFetch(domain:pt.wikipedia.org)",
+      "WebFetch(domain:tabeladacopa.com)",
+      "Bash(node -e \"const fs=require\\('fs'\\); const html=fs.readFileSync\\('index.html','utf8'\\); console.log\\('Tamanho:', html.length, 'chars'\\); console.log\\('view-flu:', html.includes\\('id=\\\\\"view-flu\\\\\"'\\)\\); console.log\\('view-copa:', html.includes\\('id=\\\\\"view-copa\\\\\"'\\)\\); console.log\\('mostrarCopa:', html.includes\\('mostrarCopa'\\)\\); console.log\\('filtrarCopa:', html.includes\\('filtrarCopa'\\)\\); console.log\\('jogosCopa2026:', html.includes\\('jogosCopa2026'\\)\\); console.log\\('72 jogos:', \\(html.match\\(/grupo:'/g\\)||[]\\).length\\); console.log\\('Brasil default:', html.includes\\('value=\\\\\"Brasil\\\\\" selected'\\)\\); console.log\\('filtro-semana:', html.includes\\('filtro-semana'\\)\\); console.log\\('filtro-dia:', html.includes\\('filtro-dia'\\)\\); console.log\\('filtro-time:', html.includes\\('filtro-time'\\)\\);\")"
     ]
   }
 }
