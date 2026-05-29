@@ -13,11 +13,11 @@ const manualLibertadores = {
   "group": "C",
   "matches": [
     { "round": 1, "date": "2026-04-07", "time_brt": "19:00", "home_team": "Deportivo La Guaira", "away_team": "Fluminense", "stadium": "Olímpico de la UCV", "status": "finished", "score": { "home": 0, "away": 0 } },
-    { "round": 2, "date": "2026-04-15", "time_brt": "21:30", "home_team": "Fluminense", "away_team": "Independiente Rivadavia", "stadium": "Maracanã", "status": "scheduled", "score": null },
-    { "round": 3, "date": "2026-04-30", "time_brt": "19:00", "home_team": "Bolívar", "away_team": "Fluminense", "stadium": "Hernando Siles", "status": "scheduled", "score": null },
-    { "round": 4, "date": "2026-05-06", "time_brt": "21:30", "home_team": "Independiente Rivadavia", "away_team": "Fluminense", "stadium": "Bautista Gargantini", "status": "scheduled", "score": null },
-    { "round": 5, "date": "2026-05-19", "time_brt": "19:00", "home_team": "Fluminense", "away_team": "Bolívar", "stadium": "Maracanã", "status": "scheduled", "score": null },
-    { "round": 6, "date": "2026-05-27", "time_brt": "21:30", "home_team": "Fluminense", "away_team": "Deportivo La Guaira", "stadium": "Maracanã", "status": "scheduled", "score": null }
+    { "round": 2, "date": "2026-04-15", "time_brt": "21:30", "home_team": "Fluminense", "away_team": "Independiente Rivadavia", "stadium": "Maracanã", "status": "scheduled", "score":  { "home": 1, "away": 2 } },
+    { "round": 3, "date": "2026-04-30", "time_brt": "19:00", "home_team": "Bolívar", "away_team": "Fluminense", "stadium": "Hernando Siles", "status": "scheduled", "score":  { "home": 2, "away": 0 } },
+    { "round": 4, "date": "2026-05-06", "time_brt": "21:30", "home_team": "Independiente Rivadavia", "away_team": "Fluminense", "stadium": "Bautista Gargantini", "status": "scheduled", "score":  { "home": 1, "away": 1 } },
+    { "round": 5, "date": "2026-05-19", "time_brt": "19:00", "home_team": "Fluminense", "away_team": "Bolívar", "stadium": "Maracanã", "status": "scheduled", "score":  { "home": 2, "away": 1 } },
+    { "round": 6, "date": "2026-05-27", "time_brt": "21:30", "home_team": "Fluminense", "away_team": "Deportivo La Guaira", "stadium": "Maracanã", "status": "scheduled", "score":  { "home": 3, "away": 1 } }
   ]
 };
 
