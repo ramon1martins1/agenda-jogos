@@ -365,135 +365,122 @@
       border-color: rgba(234, 179, 8, 0.4);
     }
 
-    .copa-matches {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 16px;
-    }
-
-    .match-card {
+    .copa-day-group {
       background: var(--card-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 16px;
       overflow: hidden;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      animation: fadeInUp 0.4s ease-out both;
     }
 
-    .match-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-    }
-
-    .match-card.brasil {
-      border-color: rgba(234, 179, 8, 0.25);
-      box-shadow: 0 0 18px rgba(234, 179, 8, 0.07);
-    }
-
-    .match-card.brasil:hover {
-      box-shadow: 0 12px 28px rgba(234, 179, 8, 0.15);
-    }
-
-    .card-header {
-      background: rgba(0, 0, 0, 0.2);
-      padding: 10px 16px;
+    .copa-day-header {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 14px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .group-badge {
-      background: rgba(100, 116, 139, 0.25);
-      color: #94a3b8;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 0.72rem;
+    .copa-day-date {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .copa-phase-badge {
+      font-size: 0.68rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      background: rgba(0, 125, 64, 0.2);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      padding: 3px 10px;
+      border-radius: 20px;
     }
 
-    .match-card.brasil .group-badge {
+    .copa-match-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      transition: background 0.15s ease;
+    }
+
+    .copa-match-row:last-child { border-bottom: none; }
+    .copa-match-row:hover { background: rgba(255, 255, 255, 0.03); }
+    .copa-match-row.brasil { background: rgba(234, 179, 8, 0.04); }
+    .copa-match-row.brasil:hover { background: rgba(234, 179, 8, 0.08); }
+
+    .cr-num  { font-size: 0.7rem; color: #475569; font-weight: 600; min-width: 22px; }
+    .cr-time { font-size: 0.9rem; font-weight: 700; color: #fff; min-width: 50px; }
+
+    .cr-grupo {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      background: rgba(100, 116, 139, 0.2);
+      color: #94a3b8;
+      padding: 2px 7px;
+      border-radius: 5px;
+      min-width: 56px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .copa-match-row.brasil .cr-grupo {
       background: rgba(234, 179, 8, 0.15);
       color: #fbbf24;
     }
 
-    .match-datetime {
-      font-size: 0.78rem;
-      color: #94a3b8;
-    }
-
-    .card-body {
-      padding: 20px 16px;
+    .cr-teams {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 8px;
-    }
-
-    .match-team {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
       flex: 1;
+      flex-wrap: wrap;
     }
 
-    .team-flag {
-      font-size: 2.2rem;
-      line-height: 1;
-    }
+    .cr-flag  { font-size: 1.1rem; line-height: 1; }
+    .cr-tname { font-size: 0.88rem; font-weight: 600; color: #e2e8f0; }
+    .cr-sep   { color: #475569; font-weight: 600; font-size: 0.85rem; padding: 0 2px; }
+    .cr-score { font-size: 0.95rem; font-weight: 700; color: #fff; padding: 0 4px; }
 
-    .team-name {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-align: center;
-      color: #e2e8f0;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .match-vs {
-      background: rgba(0, 0, 0, 0.3);
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 700;
+    .cr-venue {
+      font-size: 0.75rem;
       color: #64748b;
-      min-width: 48px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 280px;
       flex-shrink: 0;
     }
 
-    .match-vs.played {
-      color: #fff;
-      font-size: 1.1rem;
-    }
-
-    .card-footer {
-      padding: 10px 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-      font-size: 0.78rem;
-      color: #64748b;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .copa-empty {
-      grid-column: 1 / -1;
-      padding: 60px;
-      text-align: center;
-      color: #94a3b8;
-    }
-
+    .copa-empty { padding: 60px; text-align: center; color: #94a3b8; }
     .copa-empty h3 { color: #cbd5e1; margin-bottom: 8px; }
 
+    @media (max-width: 900px) {
+      .cr-venue { display: none; }
+    }
+
     @media (max-width: 768px) {
-      .copa-matches { grid-template-columns: 1fr; }
       .copa-filters { flex-direction: column; }
       .filter-select { min-width: unset; width: 100%; }
+      .copa-match-row { flex-wrap: wrap; padding: 12px 16px; }
+      .cr-venue { display: flex; width: 100%; margin-left: 0; padding-left: 84px; max-width: none; }
     }
     /* ────────────────────────────────────────────────── */
 
@@ -912,10 +899,10 @@
       if (dia    !== 'todos') filtrados = filtrados.filter(j => j.data === dia);
       if (time   !== 'todos') filtrados = filtrados.filter(j => j.time1 === time || j.time2 === time);
 
-      // Ordenar por grupo (A→L) depois por data
+      // Ordenar por data, depois por hora
       const toDate = s => { const [d, m] = s.split('/'); return new Date(2026, m - 1, d); };
       filtrados = [...filtrados].sort((a, b) =>
-        a.grupo.localeCompare(b.grupo) || toDate(a.data) - toDate(b.data)
+        toDate(a.data) - toDate(b.data) || a.hora.localeCompare(b.hora)
       );
 
       renderizarCopa(filtrados);
@@ -924,40 +911,65 @@
     function renderizarCopa(jogos) {
       const container = document.getElementById('copa-matches-container');
       if (!jogos || jogos.length === 0) {
-        container.innerHTML = '<div class="copa-matches"><div class="copa-empty"><h3>Nenhum jogo encontrado</h3><p>Tente ajustar os filtros.</p></div></div>';
+        container.innerHTML = '<div class="copa-empty"><h3>Nenhum jogo encontrado</h3><p>Tente ajustar os filtros.</p></div>';
         return;
       }
-      const diasPT = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-      container.innerHTML = '<div class="copa-matches">' + jogos.map((jogo, i) => {
-        const isBrasil = jogo.time1 === 'Brasil' || jogo.time2 === 'Brasil';
-        const [dia, mes] = jogo.data.split('/');
-        const nomeDia = diasPT[new Date(2026, mes - 1, dia).getDay()];
-        const f1 = flags[jogo.time1] || '🏳️';
-        const f2 = flags[jogo.time2] || '🏳️';
-        const played = jogo.resultado !== '-';
+
+      const mesesPT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+      const toDate  = s => { const [d, m] = s.split('/'); return new Date(2026, m - 1, d); };
+
+      // Agrupar por data mantendo a ordem já aplicada pelo sort
+      const grupos = {};
+      const ordemDatas = [];
+      jogos.forEach(j => {
+        if (!grupos[j.data]) { grupos[j.data] = []; ordemDatas.push(j.data); }
+        grupos[j.data].push(j);
+      });
+
+      let globalIdx = 0;
+      const html = ordemDatas.map((data, gi) => {
+        const [dia, mes, ano] = data.split('/');
+        const nomeMes   = mesesPT[parseInt(mes, 10) - 1];
+        const dateLabel = `${parseInt(dia, 10)} de ${nomeMes} de ${ano}`;
+
+        const rowsHtml = grupos[data].map(jogo => {
+          globalIdx++;
+          const isBrasil = jogo.time1 === 'Brasil' || jogo.time2 === 'Brasil';
+          const f1 = flags[jogo.time1] || '🏳️';
+          const f2 = flags[jogo.time2] || '🏳️';
+          const mid = jogo.resultado !== '-'
+            ? `<span class="cr-score">${jogo.resultado}</span>`
+            : `<span class="cr-sep">&times;</span>`;
+          return `
+            <div class="copa-match-row${isBrasil ? ' brasil' : ''}">
+              <span class="cr-num">#${globalIdx}</span>
+              <span class="cr-time">${jogo.hora}</span>
+              <span class="cr-grupo">Grupo ${jogo.grupo}</span>
+              <div class="cr-teams">
+                <span class="cr-flag">${f1}</span>
+                <span class="cr-tname">${jogo.time1}</span>
+                ${mid}
+                <span class="cr-tname">${jogo.time2}</span>
+                <span class="cr-flag">${f2}</span>
+              </div>
+              <div class="cr-venue">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                ${jogo.estadio} &bull; ${jogo.cidade}
+              </div>
+            </div>`;
+        }).join('');
+
         return `
-          <div class="match-card${isBrasil ? ' brasil' : ''}" style="animation:fadeInUp 0.4s ease-out ${i * 0.04}s both;">
-            <div class="card-header">
-              <span class="group-badge">Grupo ${jogo.grupo}</span>
-              <span class="match-datetime">${nomeDia} &bull; ${dia}/${mes} &bull; ${jogo.hora}</span>
+          <div class="copa-day-group" style="animation-delay:${gi * 0.05}s">
+            <div class="copa-day-header">
+              <span class="copa-day-date">${dateLabel}</span>
+              <span class="copa-phase-badge">Fase de Grupos</span>
             </div>
-            <div class="card-body">
-              <div class="match-team">
-                <span class="team-flag">${f1}</span>
-                <span class="team-name">${jogo.time1}</span>
-              </div>
-              <div class="match-vs${played ? ' played' : ''}">${jogo.resultado}</div>
-              <div class="match-team">
-                <span class="team-flag">${f2}</span>
-                <span class="team-name">${jogo.time2}</span>
-              </div>
-            </div>
-            <div class="card-footer">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              ${jogo.estadio} &bull; ${jogo.cidade}
-            </div>
+            ${rowsHtml}
           </div>`;
-      }).join('') + '</div>';
+      }).join('');
+
+      container.innerHTML = html;
     }
 
     // Inicializar Copa 2026 como view padrão
