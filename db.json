@@ -212,12 +212,12 @@
     "time": "A definir",
     "stadium": "A definir",
     "league": "Brasileirão Série A - ",
-    "result": "-",
+    "result": "1-1",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=20%3A30%20%20Cruzeiro%20EC%20vs%20Fluminense&dates=20260101/20260101"
   },
   {
     "id": 19,
-    "Fluminense": "Fluminense FC",
+    "Fluminense": "20:00  Fluminense FC",
     "opponent": "RB Bragantino",
     "isHome": true,
     "date": "01/01/2026",
@@ -241,7 +241,7 @@
   },
   {
     "id": 21,
-    "Fluminense": "Fluminense FC",
+    "Fluminense": "21:30  Fluminense FC",
     "opponent": "EC Bahia",
     "isHome": true,
     "date": "01/01/2026",
@@ -254,14 +254,14 @@
   {
     "id": 22,
     "Fluminense": "Fluminense FC",
-    "opponent": "Botafogo FR",
+    "opponent": "21:00  Botafogo FR",
     "isHome": false,
     "date": "01/01/2026",
     "time": "A definir",
     "stadium": "A definir",
     "league": "Brasileirão Série A - ",
     "result": "-",
-    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Botafogo%20FR%20vs%20Fluminense&dates=20260101/20260101"
+    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=21%3A00%20%20Botafogo%20FR%20vs%20Fluminense&dates=20260101/20260101"
   },
   {
     "id": 23,
@@ -277,7 +277,7 @@
   },
   {
     "id": 24,
-    "Fluminense": "Fluminense FC",
+    "Fluminense": "16:00  Fluminense FC",
     "opponent": "Clube do Remo",
     "isHome": true,
     "date": "01/01/2026",
@@ -524,8 +524,32 @@
     "time": "A definir",
     "stadium": "Maracanã",
     "league": "Copa Libertadores - ",
-    "result": "-",
+    "result": "3-1",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Fluminense%20vs%20Deportivo%20La%20Guaira%20FC%20(VEN)&dates=20260101/20260101"
+  },
+  {
+    "id": 45,
+    "Fluminense": "19:00  Fluminense FC (BRA)",
+    "opponent": "CS Independiente Rivadavia (ARG)",
+    "isHome": true,
+    "date": "01/01/2026",
+    "time": "A definir",
+    "stadium": "Maracanã",
+    "league": "Copa Libertadores - ",
+    "result": "-",
+    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Fluminense%20vs%20CS%20Independiente%20Rivadavia%20(ARG)&dates=20260101/20260101"
+  },
+  {
+    "id": 46,
+    "Fluminense": "Fluminense FC (BRA)",
+    "opponent": "19:00  CS Independiente Rivadavia (ARG)",
+    "isHome": false,
+    "date": "01/01/2026",
+    "time": "A definir",
+    "stadium": "A definir",
+    "league": "Copa Libertadores - ",
+    "result": "-",
+    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=19%3A00%20%20CS%20Independiente%20Rivadavia%20(ARG)%20vs%20Fluminense&dates=20260101/20260101"
   },
   {
     "Fluminense": "Fluminense",
@@ -537,7 +561,7 @@
     "league": "Copa Libertadores 2026 - Rodada 1",
     "result": "0-0",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Deportivo%20La%20Guaira%20vs%20Fluminense&dates=20260407T220000Z/20260407T220000Z",
-    "id": 45
+    "id": 47
   },
   {
     "Fluminense": "Fluminense",
@@ -549,7 +573,7 @@
     "league": "Copa Libertadores 2026 - Rodada 2",
     "result": "-",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Fluminense%20vs%20Independiente%20Rivadavia&dates=20260416T003000Z/20260416T003000Z",
-    "id": 46
+    "id": 48
   },
   {
     "Fluminense": "Fluminense",
@@ -561,7 +585,7 @@
     "league": "Copa Libertadores 2026 - Rodada 3",
     "result": "-",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Bol%C3%ADvar%20vs%20Fluminense&dates=20260430T220000Z/20260430T220000Z",
-    "id": 47
+    "id": 49
   },
   {
     "Fluminense": "Fluminense",
@@ -573,7 +597,7 @@
     "league": "Copa Libertadores 2026 - Rodada 4",
     "result": "-",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Independiente%20Rivadavia%20vs%20Fluminense&dates=20260507T003000Z/20260507T003000Z",
-    "id": 48
+    "id": 50
   },
   {
     "Fluminense": "Fluminense",
@@ -585,7 +609,7 @@
     "league": "Copa Libertadores 2026 - Rodada 5",
     "result": "-",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Fluminense%20vs%20Bol%C3%ADvar&dates=20260519T220000Z/20260519T220000Z",
-    "id": 49
+    "id": 51
   },
   {
     "Fluminense": "Fluminense",
@@ -597,6 +621,6 @@
     "league": "Copa Libertadores 2026 - Rodada 6",
     "result": "-",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Fluminense%20vs%20Deportivo%20La%20Guaira&dates=20260528T003000Z/20260528T003000Z",
-    "id": 50
+    "id": 52
   }
 ]
