@@ -224,7 +224,7 @@
     "time": "A definir",
     "stadium": "Maracanã",
     "league": "Brasileirão Série A - ",
-    "result": "-",
+    "result": "1-1",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Fluminense%20vs%20RB%20Bragantino&dates=20260101/20260101"
   },
   {
@@ -236,7 +236,7 @@
     "time": "A definir",
     "stadium": "A definir",
     "league": "Brasileirão Série A - ",
-    "result": "-",
+    "result": "1-1",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Gr%C3%AAmio%20FBPA%20vs%20Fluminense&dates=20260101/20260101"
   },
   {
@@ -248,7 +248,7 @@
     "time": "A definir",
     "stadium": "Maracanã",
     "league": "Brasileirão Série A - ",
-    "result": "-",
+    "result": "0-0",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Fluminense%20vs%20EC%20Bahia&dates=20260101/20260101"
   },
   {
@@ -260,19 +260,19 @@
     "time": "A definir",
     "stadium": "A definir",
     "league": "Brasileirão Série A - ",
-    "result": "-",
+    "result": "1-1",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=21%3A00%20%20Botafogo%20FR%20vs%20Fluminense&dates=20260101/20260101"
   },
   {
     "id": 23,
-    "Fluminense": "Fluminense FC",
+    "Fluminense": "16:30  Fluminense FC",
     "opponent": "SE Palmeiras",
     "isHome": true,
     "date": "01/01/2026",
     "time": "A definir",
     "stadium": "Maracanã",
     "league": "Brasileirão Série A - ",
-    "result": "-",
+    "result": "3-2",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Fluminense%20vs%20SE%20Palmeiras&dates=20260101/20260101"
   },
   {
@@ -284,24 +284,24 @@
     "time": "A definir",
     "stadium": "Maracanã",
     "league": "Brasileirão Série A - ",
-    "result": "-",
+    "result": "2-1",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Fluminense%20vs%20Clube%20do%20Remo&dates=20260101/20260101"
   },
   {
     "id": 25,
     "Fluminense": "Fluminense FC",
-    "opponent": "CA Paranaense",
+    "opponent": "11:00  CA Paranaense",
     "isHome": false,
     "date": "01/01/2026",
     "time": "A definir",
     "stadium": "A definir",
     "league": "Brasileirão Série A - ",
     "result": "-",
-    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=CA%20Paranaense%20vs%20Fluminense&dates=20260101/20260101"
+    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=11%3A00%20%20CA%20Paranaense%20vs%20Fluminense&dates=20260101/20260101"
   },
   {
     "id": 26,
-    "Fluminense": "Fluminense FC",
+    "Fluminense": "21:00  Fluminense FC",
     "opponent": "CR Vasco da Gama",
     "isHome": true,
     "date": "01/01/2026",
