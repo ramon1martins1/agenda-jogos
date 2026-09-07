@@ -296,7 +296,7 @@
     "time": "A definir",
     "stadium": "A definir",
     "league": "Brasileirão Série A - ",
-    "result": "-",
+    "result": "3-3",
     "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=11%3A00%20%20CA%20Paranaense%20vs%20Fluminense&dates=20260101/20260101"
   },
   {
@@ -314,14 +314,14 @@
   {
     "id": 27,
     "Fluminense": "Fluminense FC",
-    "opponent": "CA Mineiro",
+    "opponent": "16:00  CA Mineiro",
     "isHome": false,
     "date": "01/01/2026",
     "time": "A definir",
     "stadium": "A definir",
     "league": "Brasileirão Série A - ",
     "result": "-",
-    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=CA%20Mineiro%20vs%20Fluminense&dates=20260101/20260101"
+    "calendarLink": "https://calendar.google.com/calendar/render?action=TEMPLATE&text=16%3A00%20%20CA%20Mineiro%20vs%20Fluminense&dates=20260101/20260101"
   },
   {
     "id": 28,
