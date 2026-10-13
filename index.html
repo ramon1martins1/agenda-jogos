@@ -493,20 +493,18 @@
     let ligaAtual = 'Todos';
     let mostrarPassados = false;
 
-    // Um jogo "some" ~2h30 após o início; sem horário definido, só no dia seguinte
-    const DURACAO_JOGO_MS = 150 * 60 * 1000;
+    // Um jogo continua visível se for de hoje em diante OU se ainda não tiver placar
+    function hojeIso() {
+      // Data de hoje no horário de Brasília, no formato AAAA-MM-DD
+      return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
+    }
+    function temPlacar(jogo) {
+      return /^\d+-\d+$/.test(jogo.result || '');
+    }
     function jogoJaPassou(jogo) {
-      let inicio;
-      if (jogo.datetime) {
-        inicio = new Date(jogo.datetime);
-      } else {
-        const [d, m, a] = jogo.date.split('/');
-        inicio = new Date(`${a}-${m}-${d}T00:00:00-03:00`);
-      }
-      const fim = jogo.time === 'A definir'
-        ? inicio.getTime() + 24 * 60 * 60 * 1000
-        : inicio.getTime() + DURACAO_JOGO_MS;
-      return Date.now() > fim;
+      const [d, m, a] = jogo.date.split('/');
+      const dataJogo = `${a}-${m}-${d}`;
+      return dataJogo < hojeIso() && temPlacar(jogo);
     }
 
     function alternarPassados() {
