@@ -1,5 +1,6 @@
 // Teste da API pública (não oficial) da ESPN — só imprime no log, não altera nada.
-// Rodar: node teste-espn.js
+// Rodar: node teste-espn.js  (salva as respostas brutas em espn-resultado/)
+import fs from 'fs';
 
 const TIME_ID = '3445'; // Fluminense na ESPN
 const BASE = 'https://site.api.espn.com/apis/site/v2/sports/soccer';
@@ -52,6 +53,8 @@ async function main() {
       console.log(url);
       try {
         const dados = await buscar(url);
+        fs.mkdirSync('espn-resultado', { recursive: true });
+        fs.writeFileSync(`espn-resultado/${liga.id}-${extra ? 'proximos' : 'resultados'}.json`, JSON.stringify(dados, null, 2));
         const eventos = dados.events ?? [];
         console.log(`Temporada: ${dados.season?.displayName ?? '?'} · ${dados.season?.name ?? ''} · ${eventos.length} jogos`);
         if (dados.timestamp) console.log(`Timestamp da ESPN: ${dados.timestamp}`);

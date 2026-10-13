@@ -1,9 +1,9 @@
 name: Teste da API da ESPN
 on:
-  workflow_dispatch: # Só roda manualmente; não altera nenhum arquivo
+  workflow_dispatch: # Só roda manualmente; não altera o branch main
 
 permissions:
-  contents: read
+  contents: write # Apenas para salvar o resultado no branch teste-espn-resultado
 
 jobs:
   testar:
@@ -18,4 +18,16 @@ jobs:
           node-version: 24
 
       - name: Consultar a ESPN e mostrar os jogos no log
-        run: node teste-espn.js
+        run: node teste-espn.js | tee espn-resultado-log.txt
+
+      - name: Salvar o resultado no branch teste-espn-resultado
+        run: |
+          mkdir -p /tmp/saida && cp -r espn-resultado espn-resultado-log.txt /tmp/saida/ 2>/dev/null || true
+          git config --global user.name "Agenda-Bot"
+          git config --global user.email "bot@github.com"
+          git checkout --orphan teste-espn-resultado
+          git rm -rf --quiet . 
+          cp -r /tmp/saida/. .
+          git add -A
+          git commit -m "Resultado do teste da ESPN"
+          git push -f origin teste-espn-resultado
