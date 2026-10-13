@@ -129,6 +129,29 @@
     }
     .segmentos button[aria-pressed='true'] { background: var(--superficie); color: var(--tinta); box-shadow: var(--sombra); }
 
+    /* Filtros fixos no topo ao rolar */
+    .filtros {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; flex-direction: column; gap: 8px;
+      margin: 0 calc(var(--esp) * -1);
+      padding: calc(env(safe-area-inset-top) + 8px) var(--esp) 0;
+      background: var(--fundo);
+    }
+    .abas-periodo { display: flex; gap: 20px; padding: 0 4px; border-bottom: 1px solid var(--borda); }
+    .abas-periodo button {
+      display: inline-flex; align-items: center; gap: 6px;
+      min-height: 42px; padding: 0 2px; margin-bottom: -1px;
+      border: 0; border-bottom: 2px solid transparent; background: none;
+      color: var(--tinta-3); font-weight: 620; font-size: 0.9375rem;
+    }
+    .abas-periodo button[aria-pressed='true'] { color: var(--tinta); border-bottom-color: var(--marca); }
+    @media (prefers-color-scheme: dark) { .abas-periodo button[aria-pressed='true'] { border-bottom-color: #F7C9D2; } }
+    .contagem {
+      min-width: 22px; padding: 0 6px; border-radius: 999px; background: var(--superficie-2);
+      font-size: 0.75rem; font-weight: 640; line-height: 20px; text-align: center; color: var(--tinta-2);
+    }
+    .contagem:empty { display: none; }
+
     /* ---------------- Cartões e listas ---------------- */
     .cartao-ui { background: var(--superficie); border: 1px solid var(--borda); border-radius: var(--raio); box-shadow: var(--sombra); }
     .secao { display: flex; flex-direction: column; gap: 6px; }
@@ -213,17 +236,22 @@
         <div class="esqueleto" aria-busy="true" aria-label="Carregando"><span class="esq-bloco alto"></span></div>
       </div>
 
-      <div class="segmentos" role="group" aria-label="Campeonato">
-        <button data-liga="Todos">Todos</button>
-        <button data-liga="Brasileirão Série A">Brasileirão</button>
-        <button data-liga="Copa Libertadores">Libertadores</button>
+      <div class="filtros">
+        <div class="segmentos" id="seg-liga" role="group" aria-label="Campeonato">
+          <button data-liga="Todos">Todos</button>
+          <button data-liga="Brasileirão Série A">Brasileirão</button>
+          <button data-liga="Copa Libertadores">Libertadores</button>
+        </div>
+        <div class="abas-periodo" id="seg-periodo" role="group" aria-label="Período">
+          <button data-periodo="proximos">Próximos <span class="contagem" id="qtd-proximos"></span></button>
+          <button data-periodo="resultados">Resultados <span class="contagem" id="qtd-resultados"></span></button>
+        </div>
       </div>
 
       <section id="lista" class="secao" aria-live="polite">
         <div class="esqueleto"><span class="esq-bloco"></span><span class="esq-bloco"></span><span class="esq-bloco"></span></div>
       </section>
 
-      <button id="btn-passados" class="botao discreto largo" hidden></button>
       <p class="rodape-nota" id="rodape">Horários de Brasília. Dados atualizados todo dia.</p>
     </main>
   </div>
@@ -231,7 +259,7 @@
   <script>
     let todosOsJogos = [];
     let ligaAtual = lerPreferencia('agenda:liga', 'Todos');
-    let mostrarPassados = false;
+    let periodo = 'proximos'; // proximos ou resultados
 
     function lerPreferencia(chave, padrao) {
       try { return localStorage.getItem(chave) || padrao; } catch { return padrao; }
@@ -332,7 +360,6 @@
     /* ---------------- Lista ---------------- */
     function linhaDoJogo(jogo) {
       const iso = isoDoJogo(jogo);
-      const passou = jogoJaPassou(jogo);
       const res = desfecho(jogo);
       const data = dataCalendario(iso);
 
@@ -352,7 +379,7 @@
 
       return `
         <li>
-          <div class="linha${passou ? ' inativa' : ''}">
+          <div class="linha">
             <span class="avatar avatar-${res ? res.tom : (jogo.isHome ? 'marca' : 'cartao')}">
               <b>${fmtDia.format(data)}</b><small>${fmtSemana.format(data).replace('.', '')}</small>
             </span>
@@ -367,23 +394,27 @@
     }
 
     function atualizarLista() {
-      document.querySelectorAll('.segmentos button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.liga === ligaAtual)));
+      document.querySelectorAll('#seg-liga button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.liga === ligaAtual)));
+      document.querySelectorAll('#seg-periodo button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.periodo === periodo)));
 
-      let filtrados = ligaAtual === 'Todos' ? todosOsJogos : todosOsJogos.filter(j => j.league && j.league.includes(ligaAtual));
-      const qtdPassados = filtrados.filter(jogoJaPassou).length;
-      if (!mostrarPassados) filtrados = filtrados.filter(j => !jogoJaPassou(j));
+      const daLiga = ligaAtual === 'Todos' ? todosOsJogos : todosOsJogos.filter(j => j.league && j.league.includes(ligaAtual));
+      const proximos = daLiga.filter(j => !jogoJaPassou(j));
+      // Resultados: do mais recente para o mais antigo
+      const resultados = daLiga.filter(jogoJaPassou).reverse();
+      document.getElementById('qtd-proximos').textContent = proximos.length || '';
+      document.getElementById('qtd-resultados').textContent = resultados.length || '';
 
-      const btn = document.getElementById('btn-passados');
-      btn.hidden = qtdPassados === 0;
-      btn.textContent = mostrarPassados ? 'Ocultar jogos anteriores' : `Mostrar jogos anteriores (${qtdPassados})`;
+      const filtrados = periodo === 'resultados' ? resultados : proximos;
 
       const alvo = document.getElementById('lista');
       if (filtrados.length === 0) {
-        alvo.innerHTML = `<div class="cartao-ui vazio"><h2>Nenhum jogo pela frente</h2><p>Não há próximos jogos cadastrados para este campeonato.</p></div>`;
+        alvo.innerHTML = periodo === 'resultados'
+          ? `<div class="cartao-ui vazio"><h2>Nenhum resultado ainda</h2><p>Os jogos aparecem aqui depois que tiverem placar.</p></div>`
+          : `<div class="cartao-ui vazio"><h2>Nenhum jogo pela frente</h2><p>Não há próximos jogos cadastrados para este campeonato.</p></div>`;
         return;
       }
 
-      // Agrupa por mês, mantendo a ordem cronológica
+      // Agrupa por mês, mantendo a ordem da lista
       const grupos = [];
       for (const jogo of filtrados) {
         const iso = isoDoJogo(jogo);
@@ -404,16 +435,21 @@
     }
 
     /* ---------------- Eventos ---------------- */
-    document.querySelectorAll('.segmentos button').forEach(b => {
+    document.querySelectorAll('#seg-liga button').forEach(b => {
       b.addEventListener('click', () => {
         ligaAtual = b.dataset.liga;
         salvarPreferencia('agenda:liga', ligaAtual);
         atualizarLista();
       });
     });
-    document.getElementById('btn-passados').addEventListener('click', () => {
-      mostrarPassados = !mostrarPassados;
-      atualizarLista();
+    document.querySelectorAll('#seg-periodo button').forEach(b => {
+      b.addEventListener('click', () => {
+        periodo = b.dataset.periodo;
+        atualizarLista();
+        // Se a lista já estava rolada, volta para o começo dela (logo abaixo do destaque)
+        const topoLista = document.getElementById('destaque').getBoundingClientRect().bottom + window.scrollY;
+        if (window.scrollY > topoLista) window.scrollTo({ top: topoLista, behavior: 'smooth' });
+      });
     });
 
     /* ---------------- Carga ---------------- */
