@@ -1,7 +1,7 @@
-name: Atualizar Agenda Tricolor semanamente
+name: Atualizar Agenda Tricolor diariamente
 on:
   schedule:
-    - cron: '0 8 * * 1' # Executa toda Segunda-feira às 08:00 UTC
+    - cron: '0 10 * * *' # Todo dia às 07:00 (Brasília)
   workflow_dispatch: # Permite rodar manualmente pelo site do GitHub
 
 permissions:
@@ -19,10 +19,7 @@ jobs:
         with:
           node-version: 24
 
-      - name: Instalar dependências
-        run: npm ci || npm install # Instala o axios definido em package.json
-
-      - name: Buscar jogos e atualizar db.json
+      - name: Buscar jogos (ESPN, com OpenFootball de reserva) e atualizar db.json
         run: node fetch-jogos.js
 
       - name: Fazer commit do banco de dados (se houver mudanças)
@@ -31,8 +28,8 @@ jobs:
           git config --global user.email "bot@github.com"
           git add db.json
           if ! git diff --staged --quiet; then
-            git commit -m "Auto-atualizando agenda com os últimos jogos do Brasileirão"
+            git commit -m "Auto-atualizando agenda com os últimos jogos"
             git push
           else
-            echo "Nenhuma atualização nos jogos por enquanto. Nenhuma mudança para o commit."
+            echo "Nenhuma atualização nos jogos por enquanto."
           fi

@@ -1,13 +1,184 @@
 import fs from 'fs';
-import axios from 'axios';
 
-const OPENFOOTBALL_URLS = [
-  { url: 'https://raw.githubusercontent.com/openfootball/south-america/master/brazil/2026_br1.txt', leagueName: 'Brasileirão Série A' },
-  { url: 'https://raw.githubusercontent.com/openfootball/south-america/master/copa-libertadores/2026_copal.txt', leagueName: 'Copa Libertadores' }
+/* ================================================================
+   Agenda Tricolor — atualizador do db.json
+   Fonte principal: API pública (não oficial) da ESPN.
+   Reserva: OpenFootball, usado só se a ESPN falhar para um campeonato.
+   ================================================================ */
+
+const TEAM_NAME = 'Fluminense';
+const ESPN_TIME_ID = '3445'; // Fluminense na ESPN
+const ESPN_BASE = 'https://site.api.espn.com/apis/site/v2/sports/soccer';
+
+const CAMPEONATOS = [
+  {
+    nome: 'Brasileirão Série A',
+    espn: 'bra.1',
+    openfootball: 'https://raw.githubusercontent.com/openfootball/south-america/master/brazil/2026_br1.txt',
+  },
+  {
+    nome: 'Copa Libertadores',
+    espn: 'conmebol.libertadores',
+    openfootball: 'https://raw.githubusercontent.com/openfootball/south-america/master/copa-libertadores/2026_copal.txt',
+  },
 ];
 
-const TEAM_NAME = 'Fluminense'; // Busca por "Fluminense" flexível
+const FASES = {
+  'Group Stage': 'Fase de Grupos',
+  'Round of 16': 'Oitavas',
+  'Quarterfinals': 'Quartas',
+  'Semifinals': 'Semifinal',
+  'Final': 'Final',
+};
 
+// Nomes de estádio mais amigáveis que os da ESPN
+const NOMES_ESTADIO = {
+  'Estadio do Maracana': 'Maracanã',
+  'Joao Havelange Stadium': 'Nilton Santos',
+};
+
+const fmtDataBRT = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit' });
+const fmtHoraBRT = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
+
+async function buscarJson(url) {
+  const r = await fetch(url, { headers: { 'User-Agent': 'agenda-jogos' } });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.json();
+}
+
+async function buscarTexto(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return r.text();
+}
+
+function linkCalendario({ isHome, opponent, iso, horaDefinida, inicio }) {
+  let datesParam;
+  if (!horaDefinida) {
+    const [a, m, d] = iso.split('-').map(Number);
+    const fim = new Date(Date.UTC(a, m - 1, d + 1)).toISOString().slice(0, 10).replace(/-/g, '');
+    datesParam = `${iso.replace(/-/g, '')}/${fim}`;
+  } else {
+    const fmt = dt => dt.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+    datesParam = `${fmt(inicio)}/${fmt(new Date(inicio.getTime() + 2 * 60 * 60 * 1000))}`;
+  }
+  const texto = encodeURIComponent(isHome ? `Fluminense vs ${opponent}` : `${opponent} vs Fluminense`);
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${texto}&dates=${datesParam}`;
+}
+
+/* ---------------- ESPN ---------------- */
+async function jogosDaEspn(camp) {
+  const base = `${ESPN_BASE}/${camp.espn}/teams/${ESPN_TIME_ID}/schedule`;
+  const [resultados, proximos] = await Promise.all([buscarJson(base), buscarJson(`${base}?fixture=true`)]);
+
+  // Junta resultados e próximos, sem repetir o mesmo evento
+  const eventos = new Map();
+  for (const ev of [...(resultados.events ?? []), ...(proximos.events ?? [])]) eventos.set(ev.id, ev);
+  const lista = [...eventos.values()].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const contadorPorFase = {};
+  return lista.map((ev, indice) => {
+    const comp = ev.competitions?.[0] ?? {};
+    const casa = comp.competitors?.find(c => c.homeAway === 'home');
+    const fora = comp.competitors?.find(c => c.homeAway === 'away');
+    const flu = [casa, fora].find(c => c?.team?.id === ESPN_TIME_ID);
+    const adv = flu === casa ? fora : casa;
+    const isHome = flu === casa;
+    const opponent = adv?.team?.displayName ?? 'A definir';
+
+    const inicio = new Date(ev.date);
+    const iso = fmtDataBRT.format(inicio);
+    const horaDefinida = (comp.timeValid ?? ev.timeValid) !== false;
+    const time = horaDefinida ? fmtHoraBRT.format(inicio) : 'A definir';
+    const [a, m, d] = iso.split('-');
+
+    const status = comp.status?.type ?? {};
+    let result = '-';
+    let penalties;
+    if (status.name === 'STATUS_POSTPONED') result = 'Adiado';
+    else if (status.completed) {
+      const p = c => c?.score?.displayValue ?? c?.score ?? '';
+      result = `${p(casa)}-${p(fora)}`;
+      const sc = c => c?.score?.shootoutScore ?? c?.shootoutScore;
+      if (sc(casa) != null && sc(fora) != null) penalties = `${sc(casa)}-${sc(fora)}`;
+    }
+
+    // Nome da fase/rodada
+    let league = camp.nome;
+    if (camp.espn === 'bra.1') {
+      // A ESPN não informa a rodada: usa a ordem cronológica dos jogos do Fluminense
+      league += ` - Rodada ${indice + 1}`;
+    } else {
+      const faseEn = ev.seasonType?.name ?? '';
+      const fase = FASES[faseEn] ?? faseEn;
+      contadorPorFase[fase] = (contadorPorFase[fase] ?? 0) + 1;
+      const n = contadorPorFase[fase];
+      if (fase === 'Fase de Grupos') league += ` - Fase de Grupos - Rodada ${n}`;
+      else if (fase === 'Final') league += ' - Final';
+      else league += ` - ${fase} - ${n === 1 ? 'Ida' : 'Volta'}`;
+    }
+
+    const estadio = comp.venue?.fullName;
+    const jogo = {
+      Fluminense: flu?.team?.displayName ?? TEAM_NAME,
+      opponent,
+      isHome,
+      date: `${d}/${m}/${a}`,
+      time,
+      datetime: horaDefinida ? `${iso}T${time}:00-03:00` : `${iso}T00:00:00-03:00`,
+      stadium: estadio ? (NOMES_ESTADIO[estadio] ?? estadio) : 'A definir',
+      league,
+      result,
+      calendarLink: linkCalendario({ isHome, opponent, iso, horaDefinida, inicio }),
+      fonte: 'ESPN',
+    };
+    if (penalties) jogo.penalties = penalties;
+    return jogo;
+  });
+}
+
+/* ---------------- OpenFootball (reserva) ---------------- */
+async function jogosDoOpenFootball(camp) {
+  const texto = await buscarTexto(camp.openfootball);
+  const jogos = processData(texto, camp.nome);
+  if (jogos.some(j => !j._dataReconhecida)) throw new Error('datas não reconhecidas (formato mudou?)');
+  return jogos.map(({ _dataReconhecida, ...j }) => ({ ...j, fonte: 'OpenFootball' }));
+}
+
+/* ---------------- Principal ---------------- */
+async function fetchJogos() {
+  const todos = [];
+  for (const camp of CAMPEONATOS) {
+    try {
+      const jogos = await jogosDaEspn(camp);
+      if (jogos.length === 0) throw new Error('nenhum jogo retornado');
+      console.log(`✓ ${camp.nome}: ${jogos.length} jogos (ESPN)`);
+      todos.push(...jogos);
+      continue;
+    } catch (e) {
+      console.error(`Aviso: ESPN falhou para ${camp.nome} (${e.message}). Tentando OpenFootball...`);
+    }
+    try {
+      const jogos = await jogosDoOpenFootball(camp);
+      console.log(`✓ ${camp.nome}: ${jogos.length} jogos (OpenFootball, reserva)`);
+      todos.push(...jogos);
+    } catch (e) {
+      console.error(`Erro: OpenFootball também falhou para ${camp.nome} (${e.message}).`);
+    }
+  }
+
+  if (todos.length === 0) {
+    console.error('Erro: nenhum jogo obtido. db.json NÃO foi alterado.');
+    process.exit(1);
+  }
+
+  todos.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+  const formatados = todos.map((j, i) => ({ ...j, id: i + 1 }));
+  fs.writeFileSync('db.json', JSON.stringify(formatados, null, 2) + '\n');
+  console.log(`✓ ${formatados.length} jogos salvos em db.json`);
+}
+
+/* ---------------- Parser do OpenFootball ---------------- */
 // Estádios conhecidos (o OpenFootball não informa o local). Chave: data YYYY-MM-DD.
 const ESTADIOS_CONHECIDOS = {
   '2026-04-07': 'Olímpico de la UCV',
@@ -33,44 +204,6 @@ function traduzirRodada(texto) {
 // Remove o código do país, ex.: "Fluminense FC (BRA)" -> "Fluminense FC"
 function limparNome(nome) {
   return nome.replace(/\s*\([A-Z]{3}\)\s*$/, '').trim();
-}
-
-async function fetchJogos() {
-  const todosOsJogos = [];
-
-  for (const source of OPENFOOTBALL_URLS) {
-    console.log(`Buscando dados em ${source.url}...`);
-    try {
-      const response = await axios.get(source.url);
-      const jogosDaLiga = processData(response.data, source.leagueName);
-      console.log(`  ${jogosDaLiga.length} jogos do ${TEAM_NAME} encontrados`);
-      todosOsJogos.push(...jogosDaLiga);
-    } catch (error) {
-      console.error(`Aviso: Não foi possível obter dados de ${source.url} (${error.message})`);
-    }
-  }
-
-  // Segurança: se o parser não reconheceu nenhuma data, não sobrescreve o db.json
-  const semData = todosOsJogos.filter(j => !j._dataReconhecida).length;
-  if (todosOsJogos.length === 0) {
-    console.error('Erro: nenhum jogo obtido. db.json NÃO foi alterado.');
-    process.exit(1);
-  }
-  if (semData > 0) {
-    console.error(`Erro: ${semData} jogos sem data reconhecida (formato do OpenFootball pode ter mudado). db.json NÃO foi alterado.`);
-    process.exit(1);
-  }
-
-  todosOsJogos.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
-
-  const formatados = todosOsJogos.map((j, i) => {
-    const { _dataReconhecida, ...resto } = j;
-    resto.id = i + 1;
-    return resto;
-  });
-
-  fs.writeFileSync('db.json', JSON.stringify(formatados, null, 2));
-  console.log(`✓ ${formatados.length} jogos salvos em db.json`);
 }
 
 function processData(data, baseLeagueName) {

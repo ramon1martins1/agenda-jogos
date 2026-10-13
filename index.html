@@ -148,6 +148,7 @@
     .linha-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--tinta-3); font-size: 0.8125rem; }
     .linha-sub { color: var(--tinta-3); font-size: 0.8125rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .linha-fim { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+    .penaltis { font-size: 0.75rem; font-weight: 600; color: var(--tinta-3); }
     .placar { font-weight: 700; font-size: 1.0625rem; letter-spacing: -0.01em; white-space: nowrap; }
 
     /* Avatares e chips */
@@ -223,7 +224,7 @@
       </section>
 
       <button id="btn-passados" class="botao discreto largo" hidden></button>
-      <p class="rodape-nota">Dados do OpenFootball, atualizados toda segunda-feira. Horários de Brasília.</p>
+      <p class="rodape-nota" id="rodape">Horários de Brasília. Dados atualizados todo dia.</p>
     </main>
   </div>
 
@@ -286,11 +287,16 @@
       const adv = jogo.isHome ? fora : casa;
       if (flu > adv) return { tom: 'entrada', texto: 'Vitória' };
       if (flu < adv) return { tom: 'saida', texto: 'Derrota' };
+      if (jogo.penalties) {
+        const [pc, pf] = jogo.penalties.split('-').map(Number);
+        const venceu = jogo.isHome ? pc > pf : pf > pc;
+        return venceu ? { tom: 'entrada', texto: 'Vitória (pên.)' } : { tom: 'saida', texto: 'Derrota (pên.)' };
+      }
       return { tom: 'atencao', texto: 'Empate' };
     }
     function nomeCurtoLiga(league) {
       if (league.startsWith('Brasileirão')) return league.replace('Brasileirão Série A - ', 'Brasileirão · ');
-      if (league.startsWith('Copa Libertadores')) return league.replace('Copa Libertadores - ', 'Libertadores · ');
+      if (league.startsWith('Copa Libertadores')) return league.replace('Copa Libertadores - ', 'Libertadores · ').replace('Fase de Grupos - ', 'Grupos · ').replace(/ - /g, ' · ');
       return league;
     }
     function escapar(texto) {
@@ -338,7 +344,8 @@
 
       let fim;
       if (res) {
-        fim = `<span class="placar">${escapar(jogo.result.replace('-', ' × '))}</span><span class="chip chip-${res.tom}">${res.texto}</span>`;
+        const pen = jogo.penalties ? ` <small class="penaltis">(${escapar(jogo.penalties.replace('-', '×'))})</small>` : '';
+        fim = `<span class="placar">${escapar(jogo.result.replace('-', ' × '))}${pen}</span><span class="chip chip-${res.tom}">${res.texto}</span>`;
       } else {
         fim = `<a class="icone-botao" href="${escapar(jogo.calendarLink)}" target="_blank" rel="noopener" aria-label="Adicionar à agenda">${ICONE_CALENDARIO}</a>`;
       }
@@ -414,6 +421,8 @@
       .then(res => res.json())
       .then(jogos => {
         todosOsJogos = jogos;
+        const fontes = [...new Set(jogos.map(j => j.fonte).filter(Boolean))];
+        if (fontes.length) document.getElementById('rodape').textContent = `Dados: ${fontes.join(' e ')}, atualizados todo dia. Horários de Brasília.`;
         renderizarDestaque(jogos);
         atualizarLista();
       })

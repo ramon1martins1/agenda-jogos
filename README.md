@@ -4,14 +4,14 @@ Este projeto é um sistema automatizado para rastrear e exibir a agenda de jogos
 
 ## ✨ Funcionalidades
 - **Busca Automatizada**: Utiliza um script Node.js (`fetch-jogos.js`) para capturar e atualizar dados das partidas.
-- **Integração com OpenFootball**: Obtém informações de partidas automaticamente (suplementadas com dados locais via arquivos `.txt` como `2026_br1.txt` para competições específicas).
+- **Fonte de dados**: API pública (não oficial) da ESPN para Brasileirão e Libertadores — horários, estádios, placares e pênaltis. Se a ESPN falhar para um campeonato, o script usa o OpenFootball como reserva.
 - **Interface Web**: Interface moderna utilizando HTML, CSS e um design responsivo (`index.html`) para listar os próximos jogos e facilitar a navegação.
-- **Ações Automatizadas**: Atualização semanal/periódica e contínua dos dados integrada com GitHub Actions (`.github/workflows/update.yml`).
+- **Ações Automatizadas**: Atualização diária dos dados (07:00 de Brasília) integrada com GitHub Actions (`.github/workflows/update.yml`).
 - **Opção de Calendário**: Permite exportação ou lembretes simplificados para o Google Calendar.
 
 ## 🛠 Tecnologias Utilizadas
 - **Frontend**: HTML5, CSS e JS Vanilla.
-- **Backend / Atualizador de Dados**: Node.js com Axios.
+- **Atualizador de Dados**: Node.js (fetch nativo, Node 18+).
 - **Automação de CI/CD**: GitHub Actions.
 - **Armazenamento de Dados**: Base em arquivo JSON estático (`db.json`) gerado automaticamente.
 
