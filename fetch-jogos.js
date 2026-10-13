@@ -6,24 +6,34 @@ const OPENFOOTBALL_URLS = [
   { url: 'https://raw.githubusercontent.com/openfootball/south-america/master/copa-libertadores/2026_copal.txt', leagueName: 'Copa Libertadores' }
 ];
 
-const manualLibertadores = {
-  "team": "Fluminense",
-  "competition": "Copa Libertadores 2026",
-  "stage": "Fase de Grupos",
-  "group": "C",
-  "matches": [
-    { "round": 1, "date": "2026-04-07", "time_brt": "19:00", "home_team": "Deportivo La Guaira", "away_team": "Fluminense", "stadium": "Olímpico de la UCV", "status": "finished", "score": { "home": 0, "away": 0 } },
-    { "round": 2, "date": "2026-04-15", "time_brt": "21:30", "home_team": "Fluminense", "away_team": "Independiente Rivadavia", "stadium": "Maracanã", "status": "scheduled", "score":  { "home": 1, "away": 2 } },
-    { "round": 3, "date": "2026-04-30", "time_brt": "19:00", "home_team": "Bolívar", "away_team": "Fluminense", "stadium": "Hernando Siles", "status": "scheduled", "score":  { "home": 2, "away": 0 } },
-    { "round": 4, "date": "2026-05-06", "time_brt": "21:30", "home_team": "Independiente Rivadavia", "away_team": "Fluminense", "stadium": "Bautista Gargantini", "status": "scheduled", "score":  { "home": 1, "away": 1 } },
-    { "round": 5, "date": "2026-05-19", "time_brt": "19:00", "home_team": "Fluminense", "away_team": "Bolívar", "stadium": "Maracanã", "status": "scheduled", "score":  { "home": 2, "away": 1 } },
-    { "round": 6, "date": "2026-05-27", "time_brt": "21:30", "home_team": "Fluminense", "away_team": "Deportivo La Guaira", "stadium": "Maracanã", "status": "scheduled", "score":  { "home": 3, "away": 1 } }
-  ]
-};
-
 const TEAM_NAME = 'Fluminense'; // Busca por "Fluminense" flexível
 
-const monthMap = { 'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5, 'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11 };
+// Estádios conhecidos (o OpenFootball não informa o local). Chave: data YYYY-MM-DD.
+const ESTADIOS_CONHECIDOS = {
+  '2026-04-07': 'Olímpico de la UCV',
+  '2026-04-30': 'Hernando Siles',
+  '2026-05-06': 'Bautista Gargantini'
+};
+
+const monthMap = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+
+// Traduções simples dos títulos de fase/rodada do OpenFootball
+function traduzirRodada(texto) {
+  return texto
+    .replace(/Matchday/g, 'Rodada')
+    .replace(/^Group,?\s*/i, 'Fase de Grupos - ')
+    .replace(/^Playoffs,?\s*/i, 'Playoffs - ')
+    .replace(/^Round of 16,?\s*/i, 'Oitavas - ')
+    .replace(/^Quarter-?finals?,?\s*/i, 'Quartas - ')
+    .replace(/^Semi-?finals?,?\s*/i, 'Semifinal - ')
+    .replace(/^Final\b,?\s*/i, 'Final ')
+    .trim();
+}
+
+// Remove o código do país, ex.: "Fluminense FC (BRA)" -> "Fluminense FC"
+function limparNome(nome) {
+  return nome.replace(/\s*\([A-Z]{3}\)\s*$/, '').trim();
+}
 
 async function fetchJogos() {
   const todosOsJogos = [];
@@ -33,72 +43,28 @@ async function fetchJogos() {
     try {
       const response = await axios.get(source.url);
       const jogosDaLiga = processData(response.data, source.leagueName);
+      console.log(`  ${jogosDaLiga.length} jogos do ${TEAM_NAME} encontrados`);
       todosOsJogos.push(...jogosDaLiga);
     } catch (error) {
       console.error(`Aviso: Não foi possível obter dados de ${source.url} (${error.message})`);
     }
   }
 
-  // Integra os jogos manuais da Libertadores
-  for (const match of manualLibertadores.matches) {
-    const isHome = match.home_team === manualLibertadores.team;
-    const opponent = isHome ? match.away_team : match.home_team;
-
-    // YYYY-MM-DD
-    const parts = match.date.split('-');
-    const dayFmt = parts[2];
-    const monthFmt = parts[1];
-    const yearFmt = parts[0];
-
-    const timeStr = match.time_brt;
-    let hour = 0, minute = 0;
-    if (timeStr !== 'A definir') {
-      const tParts = timeStr.split(':');
-      hour = parseInt(tParts[0], 10);
-      minute = parseInt(tParts[1], 10);
-    }
-
-    const isoString = `${yearFmt}-${monthFmt}-${dayFmt}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00-03:00`;
-    const dateObj = new Date(isoString);
-
-    let dataFormatadaCale = '';
-    if (timeStr === 'A definir') {
-      dataFormatadaCale = `${yearFmt}${monthFmt}${dayFmt}`;
-    } else {
-      dataFormatadaCale = dateObj.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
-    }
-
-     // Título do evento respeitando o mando de campo e sempre usando "vs"
-     const textCal = encodeURIComponent(isHome ? `Fluminense vs ${opponent}` : `${opponent} vs Fluminense`);
-    const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${textCal}&dates=${dataFormatadaCale}/${dataFormatadaCale}`;
-
-    let resultStr = '-';
-    if (match.status === 'finished' && match.score) {
-      resultStr = `${match.score.home}-${match.score.away}`;
-    }
-
-    todosOsJogos.push({
-      Fluminense: manualLibertadores.team,
-      opponent: opponent,
-      isHome: isHome,
-      date: `${dayFmt}/${monthFmt}/${yearFmt}`,
-      time: timeStr,
-      stadium: match.stadium,
-      league: `${manualLibertadores.competition} - Rodada ${match.round}`,
-      result: resultStr,
-      calendarLink: calendarLink,
-      dateObj: isoString
-    });
+  // Segurança: se o parser não reconheceu nenhuma data, não sobrescreve o db.json
+  const semData = todosOsJogos.filter(j => !j._dataReconhecida).length;
+  if (todosOsJogos.length === 0) {
+    console.error('Erro: nenhum jogo obtido. db.json NÃO foi alterado.');
+    process.exit(1);
+  }
+  if (semData > 0) {
+    console.error(`Erro: ${semData} jogos sem data reconhecida (formato do OpenFootball pode ter mudado). db.json NÃO foi alterado.`);
+    process.exit(1);
   }
 
-  // Ordena os jogos por data
-  todosOsJogos.sort((a, b) => {
-    return new Date(a.dateObj) - new Date(b.dateObj);
-  });
+  todosOsJogos.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
 
-  // Remove a propriedade de data object auxiliar
   const formatados = todosOsJogos.map((j, i) => {
-    const { dateObj, ...resto } = j;
+    const { _dataReconhecida, ...resto } = j;
     resto.id = i + 1;
     return resto;
   });
@@ -111,108 +77,107 @@ function processData(data, baseLeagueName) {
   const lines = data.split('\n').map(l => l.replace('\r', ''));
 
   let currentMatchday = '';
-  let currentYear = '2026'; // Default
-  let currentMonth = 0;
-  let currentDay = 1;
+  let currentYear = null;
+  let currentMonth = null;
+  let currentDay = null;
   let currentTime = 'A definir';
+
+  // Ano padrão vem do cabeçalho "# Date ... 2026"
+  const headerYear = data.match(/^#\s*Date.*?(\d{4})/m);
+  const defaultYear = headerYear ? headerYear[1] : String(new Date().getFullYear());
+  currentYear = defaultYear;
 
   const jogos = [];
 
-  for (let line of lines) {
-    if (line.startsWith('»')) {
-      let md = line.replace('»', '').trim();
-      md = md.replace('Matchday', 'Rodada');
-      currentMatchday = md;
+  for (const line of lines) {
+    // Cabeçalho de rodada: "» Matchday 1" (formato antigo) ou "▪ Matchday 1" (formato novo)
+    const mdMatch = line.match(/^\s*[»▪•]\s*(.+)$/);
+    if (mdMatch) {
+      currentMatchday = traduzirRodada(mdMatch[1].trim());
       continue;
     }
 
-    // Procura por data: ex. "  Wed Jan/28 2026"
-    let dateMatch = line.match(/^\s+([A-Za-z]{3})\s+([A-Za-z]{3})\/(\d+)(?:\s+(\d{4}))?/);
-    if (dateMatch) {
+    // Linha de data: "  Wed Jan/28 2026" (antigo) ou "  Wed Jan 28 2026" (novo)
+    const dateMatch = line.match(/^\s+([A-Za-z]{3})\s+([A-Za-z]{3})[\/\s](\d{1,2})(?:\s+(\d{4}))?\s*$/);
+    if (dateMatch && monthMap[dateMatch[2]] !== undefined) {
       currentMonth = monthMap[dateMatch[2]];
       currentDay = parseInt(dateMatch[3], 10);
-      if (dateMatch[4]) {
-        currentYear = dateMatch[4];
-      }
+      if (dateMatch[4]) currentYear = dateMatch[4];
       currentTime = 'A definir';
       continue;
     }
 
     const vIndex = line.indexOf(' v ');
-    if (vIndex !== -1) {
-      let timeStr = currentTime;
-      let timeMatch = line.match(/^\s+(\d{2}\.\d{2})\s/);
+    if (vIndex === -1) continue;
 
-      let homeStr = line.substring(0, vIndex);
-      if (timeMatch) {
-        timeStr = timeMatch[1].replace('.', ':');
-        currentTime = timeStr;
-        homeStr = homeStr.replace(timeMatch[0], '');
-      }
-      homeStr = homeStr.trim();
+    let homeStr = line.substring(0, vIndex);
 
-      let awayStr = line.substring(vIndex + 3).trim();
-      let resultStr = '-';
-      let matchStatusIndex = awayStr.search(/\s{2,}.*$/);
-      if (matchStatusIndex !== -1) {
-        resultStr = awayStr.substring(matchStatusIndex).trim();
-        awayStr = awayStr.substring(0, matchStatusIndex).trim();
-        // Remover conteúdo entre parênteses
-        resultStr = resultStr.replace(/\s*\([^)]*\)/g, '').trim();
-        if (resultStr.includes('[postponed]')) resultStr = 'Adiado';
-      }
-
-      if (homeStr.includes(TEAM_NAME) || awayStr.includes(TEAM_NAME)) {
-        const isHome = homeStr.includes(TEAM_NAME);
-        const opponent = isHome ? awayStr : homeStr;
-
-        let hour = 0;
-        let minute = 0;
-        if (timeStr !== 'A definir') {
-          const parts = timeStr.split(':');
-          hour = parseInt(parts[0], 10);
-          minute = parseInt(parts[1], 10);
-        }
-
-        // ISO string requires padding
-        const monthFmt = (currentMonth + 1).toString().padStart(2, '0');
-        const dayFmt = currentDay.toString().padStart(2, '0');
-        const hourFmt = hour.toString().padStart(2, '0');
-        const minFmt = minute.toString().padStart(2, '0');
-
-        // Data no BRT (UTC-3)
-        const isoString = `${currentYear}-${monthFmt}-${dayFmt}T${hourFmt}:${minFmt}:00-03:00`;
-        const dateObj = new Date(isoString);
-
-        let dataFormatadaCale = '';
-        // Se "A definir", marca o evento como de dia inteiro
-        if (timeStr === 'A definir') {
-          dataFormatadaCale = `${currentYear}${monthFmt}${dayFmt}`;
-        } else {
-          dataFormatadaCale = dateObj.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
-        }
-
-        // Título do evento respeitando o mando de campo e sempre usando "vs"
-        const textCal = encodeURIComponent(isHome ? `Fluminense vs ${opponent}` : `${opponent} vs Fluminense`);
-
-        // Link pro Google Calendar
-        const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${textCal}&dates=${dataFormatadaCale}/${dataFormatadaCale}`;
-
-        jogos.push({
-          id: jogos.length + 1,
-          Fluminense: isHome ? homeStr : awayStr,
-          opponent: opponent,
-          isHome: isHome,
-          date: `${dayFmt}/${monthFmt}/${currentYear}`,
-          time: timeStr,
-          stadium: isHome ? 'Maracanã' : 'A definir',
-          league: `${baseLeagueName} - ${currentMatchday}`,
-          result: resultStr,
-          calendarLink: calendarLink,
-          dateObj: isoString
-        });
-      }
+    // Horário: "19.00" (antigo) ou "19:00" (novo) no início da linha
+    const timeMatch = homeStr.match(/^\s+(\d{1,2})[.:](\d{2})\s+/);
+    if (timeMatch) {
+      currentTime = `${timeMatch[1].padStart(2, '0')}:${timeMatch[2]}`;
+      homeStr = homeStr.substring(timeMatch[0].length);
     }
+    const timeStr = currentTime;
+    homeStr = limparNome(homeStr.trim());
+
+    let awayStr = line.substring(vIndex + 3).trim();
+    let resultStr = '-';
+    const statusIndex = awayStr.search(/\s{2,}\S/);
+    if (statusIndex !== -1) {
+      resultStr = awayStr.substring(statusIndex).trim();
+      awayStr = awayStr.substring(0, statusIndex).trim();
+      resultStr = resultStr.replace(/\s*\([^)]*\)/g, '').trim();
+      if (resultStr.includes('[postponed]')) resultStr = 'Adiado';
+      if (!resultStr) resultStr = '-';
+    }
+    awayStr = limparNome(awayStr);
+
+    if (!homeStr.includes(TEAM_NAME) && !awayStr.includes(TEAM_NAME)) continue;
+
+    const isHome = homeStr.includes(TEAM_NAME);
+    const opponent = isHome ? awayStr : homeStr;
+    const dataReconhecida = currentMonth !== null && currentDay !== null;
+
+    const monthFmt = ((currentMonth ?? 0) + 1).toString().padStart(2, '0');
+    const dayFmt = (currentDay ?? 1).toString().padStart(2, '0');
+    const allDay = timeStr === 'A definir';
+    const horaIso = allDay ? '00:00' : timeStr;
+
+    // Data/hora no horário de Brasília (UTC-3)
+    const isoString = `${currentYear}-${monthFmt}-${dayFmt}T${horaIso}:00-03:00`;
+    const dateObj = new Date(isoString);
+
+    // Link do Google Calendar: dia inteiro se o horário for indefinido, senão 2h de duração
+    let datesParam;
+    if (allDay) {
+      const fim = new Date(Date.UTC(+currentYear, currentMonth ?? 0, (currentDay ?? 1) + 1));
+      const fimFmt = fim.toISOString().slice(0, 10).replace(/-/g, '');
+      datesParam = `${currentYear}${monthFmt}${dayFmt}/${fimFmt}`;
+    } else {
+      const fmt = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+      datesParam = `${fmt(dateObj)}/${fmt(new Date(dateObj.getTime() + 2 * 60 * 60 * 1000))}`;
+    }
+
+    const textCal = encodeURIComponent(isHome ? `Fluminense vs ${opponent}` : `${opponent} vs Fluminense`);
+    const calendarLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${textCal}&dates=${datesParam}`;
+
+    const dataChave = `${currentYear}-${monthFmt}-${dayFmt}`;
+    const stadium = ESTADIOS_CONHECIDOS[dataChave] || (isHome ? 'Maracanã' : 'A definir');
+
+    jogos.push({
+      Fluminense: isHome ? homeStr : awayStr,
+      opponent,
+      isHome,
+      date: `${dayFmt}/${monthFmt}/${currentYear}`,
+      time: timeStr,
+      datetime: isoString,
+      stadium,
+      league: currentMatchday ? `${baseLeagueName} - ${currentMatchday}` : baseLeagueName,
+      result: resultStr,
+      calendarLink,
+      _dataReconhecida: dataReconhecida
+    });
   }
 
   return jogos;
